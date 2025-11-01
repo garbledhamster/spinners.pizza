@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://spinners.pizza/</loc>
+    <!-- Use UTC and update this automatically on deploy -->
+    <lastmod>2025-11-01T12:00:00Z</lastmod>
 
+    <!-- Hreflang (single locale for now; add more if you localize) -->
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://spinners.pizza/"/>
 
-<url>
-  <loc>https://spinners.pizza/</loc>
-  <lastmod>2024-11-25T20:25:11+00:00</lastmod>
-</url>
+    <!-- Key images to help image search & rich results -->
+    <image:image>
+      <image:loc>https://spinners.pizza/assets/images/logos/1.png</image:loc>
+      <image:title>Spinners Pizza logo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://spinners.pizza/assets/images/background/current.jpg</image:loc>
+      <image:title>Spinners Pizza dining room</image:title>
+    </image:image>
 
-
+    <!-- A few representative menu/gallery images (keep this concise; 5–12 total is plenty) -->
+    <image:image>
+      <image:loc>https://spinners.pizza/assets/images/logos/2.png</image:loc>
+      <image:title>Spinners alt logo</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://spinners.pizza/assets/images/background/1.png</image:loc>
+      <image:title>Background graphic</image:title>
+    </image:image>
+  </url>
 </urlset>
