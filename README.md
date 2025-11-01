@@ -1,44 +1,46 @@
-# Spinner's Pizza Website
+# Spinners Pizza — Grovespring, Missouri 🍕
+**Handcrafted pizzas, BBQ, burgers & hometown hospitality.**  
+Live site: https://spinners.pizza/
 
-Welcome to the official website for **Spinner's Pizza**, a local pizzeria, BBQ, and burger joint in **Grovespring, MO**. This website was created as a project to support **Spinner's Pizza**, a beloved family-owned business in the community. It was a way for me to contribute something special to my dad's friend Tim, who runs the pizza place, and give them an online presence that reflects their hard work and delicious offerings.
-
-## Purpose of the Website
-
-The goal of this website is to provide a digital space for **Spinner's Pizza** to showcase their menu, restaurant hours, customer reviews, and location. The website also includes a gallery of the restaurant’s interior, giving potential customers a glimpse into the cozy and welcoming atmosphere.
-
-This project was created out of love for the local community, as well as a desire to support my dad's hobby pig farm, which operates nearby. My dad wanted to give Tim some street cred, and this website was a perfect way to do that. I worked on this for free to help promote the pizzeria and to give back to the community.
-
-## Features
-
-- **Menu Section**: A detailed menu that showcases the variety of food options available at Spinner's Pizza, including house specials, appetizers, pizzas, burgers, and desserts.
-- **Hours & Location**: Winter operating hours and the restaurant's address, with a convenient Google Maps embed to help customers find their way.
-- **Gallery**: Photos of the restaurant's interior, giving customers a visual tour of the space.
-- **Customer Reviews**: A carousel showcasing testimonials from happy customers, with links to reviews on Google.
-- **Discounts for Heroes**: A section dedicated to honoring first responders, service members, and police officers with special discounts.
-- **Responsive Design**: The website is built with responsive design, ensuring a smooth user experience on both desktop and mobile devices.
-
-## Why I Created This Website
-
-I created this website as part of my journey to give back to the local community while practicing my skills in web development. My dad wanted to help his friend Tim at Spinner's Pizza by giving him a professional website, and I was happy to step in and make it happen. The website is fully functional and designed to help attract new customers and support the local business.
-
-## Tech Stack
-
-- **HTML**: Used for structuring the content of the website.
-- **CSS** (Tailwind CSS): For styling the website in a responsive and modern way.
-- **JavaScript**: For adding interactive features like the review carousel and mobile menu.
-- **Favicon & Metadata**: Custom metadata and a favicon to improve SEO and social media presence.
-- **Google Maps Embed**: For easy access to the restaurant's location.
-
-## Support Me
-
-If you appreciate the work that went into this project, feel free to support me on **Buy Me a Coffee**! Your support helps me continue creating websites and resources for conscious communities, covering hosting fees, and assisting those in need of technical support. I truly appreciate your generosity!
-
-[Support me on Buy Me a Coffee](https://buymeacoffee.com/garbledhamster)
-
-## License
-
-This project is open source and free to use. Feel free to fork or contribute to the project if you would like to make improvements or add new features!
+This repo contains the single-page marketing site for **Spinners Pizza**. It’s fast, accessible, SEO-tuned, and easy to maintain—most content is driven by small JSON files in `/data`.
 
 ---
 
-Thank you for checking out this project! I hope this website helps **Spinner's Pizza** grow and bring delicious food to even more people in **Grovespring, MO**. 😄
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Content (JSON) Schema](#content-json-schema)
+- [Local Development](#local-development)
+- [Deployment (GitHub Pages + Cloudflare)](#deployment-github-pages--cloudflare)
+- [SEO & Local Discovery](#seo--local-discovery)
+- [Performance Tips](#performance-tips)
+- [Accessibility](#accessibility)
+- [Maintenance Checklist](#maintenance-checklist)
+- [Support](#support)
+- [License](#license)
+
+---
+
+## Features
+- **One-page, JSON-driven** site (hours, menu, gallery, reviews, about).
+- **Local SEO**: canonical URL, Open Graph/Twitter cards, `robots.txt`, `sitemap.xml` (+ optional image sitemap).
+- **Structured Data**: `Restaurant` + `FAQPage` JSON-LD; dynamic hours JSON-LD when parsable.
+- **Accessibility**: skip link, ARIA labels, keyboard navigation for modals, motion-reduction respect.
+- **Performance**: LCP image preload, lazy-loaded media, small JS footprint.
+- **Mobile-first UI** using Tailwind CDN (no build step required).
+
+---
+
+## Tech Stack
+- **HTML** (single page)
+- **Tailwind CSS (CDN)** for styling
+- **Vanilla JavaScript** for interactivity and data binding
+- **Google Fonts** (Lora), **Google Analytics** (gtag)
+- **Google Maps** embed (location)
+
+> No frameworks, no bundlers—just static assets that can be served anywhere.
+
+---
+
+## Project Structure
