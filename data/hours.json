@@ -3,10 +3,10 @@
   "days": [
     { "day": "Monday", "hours": "11am - 8pm" },
     { "day": "Tuesday", "hours": "11am - 8pm" },
-    { "day": "Wednesday", "hours": "11am - 3pm" },
-    { "day": "Thursday", "hours": "11am - 8pm" },
-    { "day": "Friday", "hours": "11am - 8pm" },
-    { "day": "Saturday", "hours": "11am - 8pm" },
+    { "day": "Wednesday", "hours": "Closed" },
+    { "day": "Thursday", "hours": "11am - 9pm" },
+    { "day": "Friday", "hours": "11am - 9pm" },
+    { "day": "Saturday", "hours": "11am - 9pm" },
     { "day": "Sunday", "hours": "11am - 6pm" }
   ],
   "notes": [
