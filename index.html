@@ -597,7 +597,7 @@
         a.className = 'w-full flex-shrink-0 flex flex-col items-center justify-center text-center p-6';
         a.setAttribute('aria-label', `Review ${idx + 1}`);
         const card = document.createElement('div');
-        card.className = 'bg-white p-8 rounded-md shadow-md h-full';
+        card.className = 'bg-white p-8 rounded-md shadow-md h-full flex flex-col justify-center';
         const pReview = document.createElement('p');
         pReview.className = 'italic text-lg';
         pReview.textContent = `"${review.review}"`;
