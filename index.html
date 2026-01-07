@@ -274,7 +274,7 @@
         </div>
 
         <div class="mt-8">
-          <div id="menu-images" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div id="menu-images" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
             <!-- menu images injected -->
           </div>
         </div>
@@ -576,7 +576,7 @@
         const img = document.createElement('img');
         img.src = src;
         img.alt = `Menu image ${index + 1}`;
-        img.className = 'cursor-pointer rounded-md transition-transform duration-300 hover:scale-105';
+        img.className = 'cursor-pointer rounded-md transition-transform duration-300 hover:scale-105 mx-auto';
         img.loading = 'lazy';
         img.decoding = 'async';
         img.onclick = () => openMenuModal(index);
