@@ -1,0 +1,19 @@
+{
+  "name": "spinners.pizza",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Spinners Pizza static site",
+  "scripts": {
+    "biome:format": "biome format --write .",
+    "biome:lint": "biome lint .",
+    "html-validate": "html-validate \"**/*.html\"",
+    "stylelint": "stylelint \"**/*.html\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "html-validate": "^8.18.1",
+    "postcss-html": "^1.6.0",
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}

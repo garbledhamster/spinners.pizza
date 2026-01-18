@@ -1,0 +1,8 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "customSyntax": "postcss-html",
+  "rules": {
+    "alpha-value-notation": "number",
+    "color-function-notation": "legacy"
+  }
+}

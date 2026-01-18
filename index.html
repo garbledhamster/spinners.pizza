@@ -72,24 +72,24 @@
   <style>
     :root { color-scheme: light; }
     body { font-family: 'Lora', serif; }
-    .header { box-shadow: 0 4px 10px rgba(0, 0, 0, .1); }
-    @keyframes rotate-logo { from { transform: rotateY(0) } to { transform: rotateY(360deg) } }
+    .header { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    @keyframes rotate-logo { from { transform: rotateY(0); } to { transform: rotateY(360deg); } }
     .animate-rotate { animation: rotate-logo 4s linear infinite; transform-style: preserve-3d; }
     .hours-card { background: linear-gradient(145deg, #4688ee, #366ed6); color: #fff; padding: 1rem; max-width: 380px; margin: auto; }
-    .hours-card h3 { border-bottom: 2px solid #3b82f6; padding-bottom: .5rem; margin-bottom: 1rem; text-align: center; }
+    .hours-card h3 { border-bottom: 2px solid #3b82f6; padding-bottom: 0.5rem; margin-bottom: 1rem; text-align: center; }
     .hours-card ul { list-style: none; padding: 0; margin: 0; }
-    .hours-card li { padding: .75rem 1rem; border-bottom: 1px solid rgba(255,255,255,.2); }
+    .hours-card li { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
     .hours-card li:last-child { border-bottom: 0; }
-    .hours-card li:hover { background: rgba(255,255,255,.08); transform: scale(1.01); }
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: none; align-items: center; justify-content: center; z-index: 50; overflow: hidden; }
+    .hours-card li:hover { background: rgba(255, 255, 255, 0.08); transform: scale(1.01); }
+    .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); display: none; align-items: center; justify-content: center; z-index: 50; overflow: hidden; }
     .modal.open { display: flex; }
     body.modal-open { overflow: hidden; }
     .image-container { position: relative; width: 100%; height: 100%; overflow: auto; display: flex; align-items: center; justify-content: center; }
     .image-container img { width: 100%; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
     #review-carousel { display: flex; transition: transform 800ms ease-in-out; will-change: transform; }
     #review-carousel a { min-width: 100%; box-sizing: border-box; }
-    .modal-button { position: absolute; top: 1rem; right: 1rem; z-index: 10; font-size: 2rem; color: white; background: rgba(0,0,0,.55); border: none; cursor: pointer; width: 3rem; height: 3rem; display: inline-flex; align-items: center; justify-content: center; line-height: 1; padding: 0; border-radius: 9999px; }
-    .skip-link { position: absolute; top: -40px; left: 0; background: #000; color:#fff; padding:.5rem 1rem; z-index:9999; }
+    .modal-button { position: absolute; top: 1rem; right: 1rem; z-index: 10; font-size: 2rem; color: white; background: rgba(0, 0, 0, 0.55); border: none; cursor: pointer; width: 3rem; height: 3rem; display: inline-flex; align-items: center; justify-content: center; line-height: 1; padding: 0; border-radius: 9999px; }
+    .skip-link { position: absolute; top: -40px; left: 0; background: #000; color: #fff; padding: 0.5rem 1rem; z-index: 9999; }
     .skip-link:focus { top: 0; }
   </style>
 
@@ -180,7 +180,7 @@
           <li><a href="#discounts" class="hover:underline hover:text-tertiary">Discounts</a></li>
           <li><a href="#order" class="hover:underline hover:text-tertiary">Order</a></li>
         </ul>
-        <button id="mobile-menu-button" class="md:hidden text-secondary hover:text-tertiary"
+        <button id="mobile-menu-button" class="md:hidden text-secondary hover:text-tertiary" type="button"
                 aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -357,20 +357,20 @@
   <!-- ====== Gallery Modal ====== -->
   <div id="gallery-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-gallery-description">
     <div class="image-container">
-      <button class="modal-button" aria-label="Close gallery" onclick="closeGalleryModal()">&times;</button>
+      <button class="modal-button" type="button" aria-label="Close gallery" onclick="closeGalleryModal()">&times;</button>
       <img id="gallery-modal-image" src="" alt="Gallery image enlarged" />
-      <button class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded" onclick="prevGalleryImage()" aria-label="Previous image">‹</button>
-      <button class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded" onclick="nextGalleryImage()" aria-label="Next image">›</button>
+      <button class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded" type="button" onclick="prevGalleryImage()" aria-label="Previous image">‹</button>
+      <button class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded" type="button" onclick="nextGalleryImage()" aria-label="Next image">›</button>
     </div>
   </div>
 
   <!-- ====== Menu Modal ====== -->
   <div id="menu-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-menu-description">
     <div class="image-container">
-      <button class="modal-button" aria-label="Close menu image" onclick="closeMenuModal()">&times;</button>
+      <button class="modal-button" type="button" aria-label="Close menu image" onclick="closeMenuModal()">&times;</button>
       <img id="menu-modal-image" src="" alt="Menu image enlarged" />
-      <button class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded" onclick="prevMenuImage()" aria-label="Previous image">‹</button>
-      <button class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded" onclick="nextMenuImage()" aria-label="Next image">›</button>
+      <button class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded" type="button" onclick="prevMenuImage()" aria-label="Previous image">‹</button>
+      <button class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded" type="button" onclick="nextMenuImage()" aria-label="Next image">›</button>
     </div>
   </div>
 
