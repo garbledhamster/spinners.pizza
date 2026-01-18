@@ -1,0 +1,23 @@
+{
+  "name": "spinners.pizza",
+  "version": "1.0.0",
+  "description": "Welcome to the official website for **Spinner's Pizza**, a local pizzeria, BBQ, and burger joint in **Grovespring, MO**. This website was created as a project to support **Spinner's Pizza**, a beloved family-owned business in the community. It was a way for me to contribute something special to my dad's friend Tim, who runs the pizza place, and give them an online presence that reflects their hard work and delicious offerings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "biome": "biome check --write .",
+    "html-validate": "html-validate \"**/*.html\"",
+    "stylelint": "stylelint \"**/*.html\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "html-validate": "^10.6.0",
+    "postcss-html": "^1.8.1",
+    "stylelint": "^17.0.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}
