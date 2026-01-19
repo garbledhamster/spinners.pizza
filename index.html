@@ -293,7 +293,7 @@
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(...args) {
-      dataLayer.push(args);
+      window.dataLayer.push(args);
     }
     gtag("js", new Date());
     gtag("config", "G-YSF3XF4NE6");
@@ -757,7 +757,7 @@
               `${openNow ? "Open now" : "Closed now"} • ${today}: ${todayRow.hours}`;
           }
         }
-      } catch (_error) {
+      } catch {
         // silent
       }
     }
@@ -1041,7 +1041,7 @@
           script.textContent = JSON.stringify(base);
           document.head.appendChild(script);
         }
-      } catch (_error) {
+      } catch {
         // silent
       }
     }
