@@ -1,0 +1,28 @@
+@keyframes medallion-flip {
+  from {
+    transform: rotateY(0turn);
+  }
+
+  to {
+    transform: rotateY(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #medallion[data-medallion-state] {
+    animation: medallion-flip 4s linear infinite;
+  }
+
+  #medallion[data-medallion-state="paused"] {
+    animation-play-state: paused;
+  }
+}
+
+#motion-control[hidden] {
+  display: none;
+}
+
+#motion-control:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}

@@ -4,8 +4,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://spinners.pizza/</loc>
-    <!-- Use UTC and update this automatically on deploy -->
-    <lastmod>2025-11-01T12:00:00Z</lastmod>
+    <lastmod>2026-11-21</lastmod>
 
     <!-- Hreflang (single locale for now; add more if you localize) -->
     <xhtml:link rel="alternate" hreflang="en-US" href="https://spinners.pizza/"/>
@@ -17,7 +16,7 @@
     </image:image>
     <image:image>
       <image:loc>https://spinners.pizza/assets/images/background/current.jpg</image:loc>
-      <image:title>Spinners Pizza dining room</image:title>
+      <image:title>Pizza at Spinners in Grovespring</image:title>
     </image:image>
 
     <!-- A few representative menu/gallery images (keep this concise; 5–12 total is plenty) -->

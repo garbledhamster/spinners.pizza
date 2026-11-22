@@ -1,1065 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- ====== Core Meta ====== -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Spinners Pizza | Grovespring, Missouri | Pizza, BBQ &amp; Burgers</title>
-    <meta
-      name="description"
-      content="Local favorite for handcrafted pizzas, BBQ, burgers &amp; more. Call (417)&nbsp;462&#8209;7746 for carry-out. Find us at 9537 MO-5, Grovespring, MO 65662."
-    >
-    <link rel="canonical" href="https://spinners.pizza/">
-    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-    <meta name="theme-color" content="#ef4444">
-
-    <!-- ====== Favicons / App ====== -->
-    <link rel="icon" type="image/png" href="https://spinners.pizza/assets/images/background/1.png" sizes="192x192">
-    <link rel="apple-touch-icon" href="https://spinners.pizza/assets/images/background/1.png">
-    <meta name="apple-mobile-web-app-title" content="Spinners Pizza">
-
-    <!-- ====== Social / Open Graph ====== -->
-    <meta property="og:title" content="Spinners Pizza - Grovespring, Missouri">
-    <meta
-      property="og:description"
-      content="Handcrafted pizzas, BBQ, burgers &amp; more. Call (417)&nbsp;462&#8209;7746 for carry-out."
-    >
-    <meta property="og:image" content="https://spinners.pizza/assets/images/background/1.png">
-    <meta property="og:url" content="https://spinners.pizza/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Spinners Pizza">
-    <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Spinners Pizza - Grovespring, Missouri">
-    <meta
-      name="twitter:description"
-      content="Handcrafted pizzas, BBQ, burgers &amp; more. Call (417)&nbsp;462&#8209;7746 for carry-out."
-    >
-    <meta name="twitter:image" content="https://spinners.pizza/assets/images/background/1.png">
-
-    <!-- ====== Hreflang (single locale now, add more as needed) ====== -->
-    <link rel="alternate" hreflang="en-US" href="https://spinners.pizza/">
-
-    <!-- ====== Discoverability Hints ====== -->
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-
-    <!-- ====== Fonts (Lora) ====== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&amp;display=swap"
-      rel="stylesheet"
-    >
-
-    <!-- ====== CSS: Tailwind via CDN ====== -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#ef4444",
-            secondary: "#ffffff",
-            tertiary: "#4488ef",
-            "tertiary-light": "#f2f1f1",
-            "border-color": "#3b82f6",
-          },
-        },
-        /* Use modern, predictable breakpoints */
-        screens: {
-          sm: "640px",
-          md: "768px",
-          lg: "1024px",
-          xl: "1280px",
-          "2xl": "1536px",
-        },
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Spinners Pizza | Grovespring, Missouri | Pizza, BBQ &amp; Burgers</title>
+  <meta name="description" content="Find the menu, published hours and carry-out information for Spinners Pizza in Grovespring, Missouri.">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <meta name="theme-color" content="#9f2923">
+  <link rel="canonical" href="https://spinners.pizza/">
+  <link rel="alternate" hreflang="en-US" href="https://spinners.pizza/">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="icon" type="image/png" href="assets/images/background/1.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/images/background/1.png">
+  <meta name="apple-mobile-web-app-title" content="Spinners Pizza">
+  <meta property="og:title" content="Spinners Pizza - Grovespring, Missouri">
+  <meta property="og:description" content="Handcrafted pizzas, BBQ and burgers in Grovespring, Missouri.">
+  <meta property="og:image" content="https://spinners.pizza/assets/images/background/1.png">
+  <meta property="og:url" content="https://spinners.pizza/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Spinners Pizza">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Spinners Pizza - Grovespring, Missouri">
+  <meta name="twitter:description" content="Handcrafted pizzas, BBQ and burgers in Grovespring, Missouri.">
+  <meta name="twitter:image" content="https://spinners.pizza/assets/images/background/1.png">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "@id": "https://spinners.pizza/#restaurant",
+      "name": "Spinners Pizza",
+      "url": "https://spinners.pizza/",
+      "image": [
+        "https://spinners.pizza/assets/images/logos/1.png",
+        "https://spinners.pizza/assets/images/background/current.jpg"
+      ],
+      "logo": "https://spinners.pizza/assets/images/logos/1.png",
+      "telephone": "+1-417-462-7746",
+      "hasMap": "https://www.google.com/maps?cid=10087945801653444493",
+      "servesCuisine": ["Pizza", "BBQ", "Burgers", "American"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "9537 MO-5",
+        "addressLocality": "Grovespring",
+        "addressRegion": "MO",
+        "postalCode": "65662",
+        "addressCountry": "US"
       },
-    };
-    </script>
-
-    <!-- ====== Preload key image for LCP ====== -->
-    <link
-      rel="preload"
-      as="image"
-      href="https://spinners.pizza/assets/images/background/current.jpg?raw=true"
-      fetchpriority="high"
-    >
-
-    <!-- ====== Critical Styles ====== -->
-    <style>
-    :root {
-      color-scheme: light;
+      "menu": "https://spinners.pizza/#menu"
     }
-
-    body {
-      font-family: Lora, serif;
-    }
-
-    .header {
-      box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
-    }
-
-    @keyframes rotate-logo {
-      from {
-        transform: rotateY(0);
-      }
-
-      to {
-        transform: rotateY(360deg);
-      }
-    }
-
-    .animate-rotate {
-      animation: rotate-logo 4s linear infinite;
-      transform-style: preserve-3d;
-    }
-
-    .hours-card {
-      background: linear-gradient(145deg, #4688ee, #366ed6);
-      color: #fff;
-      padding: 1rem;
-      max-width: 380px;
-      margin: auto;
-    }
-
-    .hours-card h3 {
-      border-bottom: 2px solid #3b82f6;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .hours-card ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .hours-card li {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgb(255 255 255 / 20%);
-    }
-
-    .hours-card li:last-child {
-      border-bottom: 0;
-    }
-
-    .hours-card li:hover {
-      background: rgb(255 255 255 / 8%);
-      transform: scale(1.01);
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgb(0 0 0 / 75%);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-      overflow: hidden;
-    }
-
-    .modal.open {
-      display: flex;
-    }
-
-    body.modal-open {
-      overflow: hidden;
-    }
-
-    .image-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .image-container img {
-      width: 100%;
-      height: auto;
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    #review-carousel {
-      display: flex;
-      transition: transform 800ms ease-in-out;
-      will-change: transform;
-    }
-
-    #review-carousel a {
-      min-width: 100%;
-      box-sizing: border-box;
-    }
-
-    .modal-button {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      z-index: 10;
-      font-size: 2rem;
-      color: white;
-      background: rgb(0 0 0 / 55%);
-      border: none;
-      cursor: pointer;
-      width: 3rem;
-      height: 3rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      padding: 0;
-      border-radius: 9999px;
-    }
-
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #000;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      z-index: 9999;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-    </style>
-
-    <!-- ====== JSON-LD: Restaurant (no fabricated ratings) ====== -->
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Restaurant",
-    "@id": "https://spinners.pizza/#restaurant",
-    "name": "Spinners Pizza",
-    "url": "https://spinners.pizza/",
-    "image": [
-      "https://spinners.pizza/assets/images/logos/1.png",
-      "https://spinners.pizza/assets/images/background/current.jpg"
-    ],
-    "logo": "https://spinners.pizza/assets/images/logos/1.png",
-    "telephone": "+1-417-462-7746",
-    "servesCuisine": ["Pizza", "BBQ", "Burgers", "American"],
-    "priceRange": "$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "9537 MO-5",
-      "addressLocality": "Grovespring",
-      "addressRegion": "MO",
-      "postalCode": "65662",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 37.404682,
-      "longitude": -92.60439
-    },
-    "hasMap": "https://www.google.com/maps?cid=10087945801653444493",
-    "menu": "https://spinners.pizza/#menu",
-    "sameAs": []
-  }
   </script>
-
-    <!-- ====== JSON-LD: FAQ (helps capture FAQ rich results) ====== -->
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "Do you offer carry-out?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Call (417)\u00a0462\u20117746 to place your order for carry-out." }
-    },{
-      "@type": "Question",
-      "name": "Where are you located?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Find us at 9537 MO-5, Grovespring, MO 65662. Tap Directions on the map below." }
-    },{
-      "@type": "Question",
-      "name": "Do you offer discounts for first responders and service members?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes—ask about our discounts at checkout. We appreciate your service." }
-    }]
-  }
-  </script>
-
-    <!-- ====== Analytics (kept) ====== -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSF3XF4NE6"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args) {
-      window.dataLayer.push(args);
-    }
-    gtag("js", new Date());
-    gtag("config", "G-YSF3XF4NE6");
-    </script>
-  </head>
-
-  <body class="bg-gray-100 text-gray-800">
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <!-- ====== Header / Nav ====== -->
-    <header class="bg-primary text-secondary fixed w-full z-30 header">
-      <div class="container mx-auto flex justify-between items-center p-4 relative">
-        <h1 class="text-xl sm:text-2xl font-bold flex items-center">
-          <img
-            src="https://spinners.pizza/assets/images/logos/1.png"
-            alt="Spinners Pizza logo"
-            class="h-8 w-8 mr-2"
-            onerror="this.onerror=null; this.src='https://picsum.photos/40';"
-            loading="eager"
-            fetchpriority="high"
-          >
-          Spinners Pizza
-        </h1>
-        <nav aria-label="Primary">
-          <ul class="hidden md:flex space-x-4">
-            <li><a href="#home" class="hover:underline hover:text-tertiary">Home</a></li>
-            <li><a href="#about" class="hover:underline hover:text-tertiary">About</a></li>
-            <li><a href="#hours" class="hover:underline hover:text-tertiary">Hours</a></li>
-            <li><a href="#menu" class="hover:underline hover:text-tertiary">Menu</a></li>
-            <li><a href="#reviews" class="hover:underline hover:text-tertiary">Reviews</a></li>
-            <li><a href="#discounts" class="hover:underline hover:text-tertiary">Discounts</a></li>
-            <li><a href="#order" class="hover:underline hover:text-tertiary">Order</a></li>
-          </ul>
-          <button
-            id="mobile-menu-button"
-            class="md:hidden text-secondary hover:text-tertiary"
-            aria-label="Toggle menu"
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-            type="button"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-7 w-7"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+  <link rel="stylesheet" href="styles/counter-ticket.css">
+  <link rel="stylesheet" href="styles/medallion.css">
+  <link rel="stylesheet" href="site/chef-tour/tour-guide.css">
+  <script src="scripts/visit-ui.js" defer></script>
+  <script src="scripts/hours.js" defer></script>
+  <script src="scripts/medallion.js" defer></script>
+  <script src="scripts/gallery.js" defer></script>
+  <script type="module" src="site/chef-tour/spinners-tours.mjs"></script>
+</head>
+<body>
+  <svg class="symbols" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-menu" viewBox="0 0 32 32"><path d="M6 7c5-1 8 0 10 2 2-2 5-3 10-2v17c-5-1-8 0-10 2-2-2-5-3-10-2zM16 9v17M9 12l4 1m-4 3 4 1m6-4 4-1m-4 5 4-1"/></symbol>
+    <symbol id="i-hours" viewBox="0 0 32 32"><path d="M8 8a11 11 0 1 1-3 8m1-4 2-4 4 2M16 9v7l4 3M16 5v1m11 10h-1M16 26v1M5 16h1"/></symbol>
+    <symbol id="i-call" viewBox="0 0 32 32"><path d="m10 6 4 6-3 3c1 3 3 5 6 6l3-3 6 4v3c-2 3-8 2-13-2S5 14 5 9l2-3zM20 7a7 7 0 0 1 5 5m-5-1 1 1"/></symbol>
+    <symbol id="i-locator" viewBox="0 0 32 32"><path d="m4 10 7-3 10 4 7-3v15l-7 3-10-4-7 3zM11 7v15m10-11v15M7 17l5-5 8 6 5-5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 32 32"><path d="M5 16h21m-8-8 8 8-8 8"/></symbol>
+    <symbol id="i-scoop" viewBox="0 0 32 32"><path d="M8 16c-4-1-3-6 1-7a7 7 0 0 1 14 1c5 2 4 6 1 6zM9 16l7 12 7-12m-10 6 5-4"/></symbol>
+  </svg>
+  <a class="skip" href="#main">Skip to content</a>
+  <header id="top" class="mast">
+    <div class="wrap mast-inner">
+      <a href="#top" class="brand">
+        <img src="assets/images/logos/1.png" alt="" width="42" height="42">
+        <span>Spinners Pizza</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#menu">Menu</a>
+        <a href="#hours">Hours</a>
+        <a href="#visit">Visit</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <section id="home" class="hero wrap" aria-labelledby="title">
+      <div class="hero-content">
+        <h1 id="title">Spinners<br> Pizza<span>.</span></h1>
+        <p class="place">Grovespring, Missouri</p>
+        <p class="hero-description">Handcrafted pizza, BBQ, burgers &amp; more.</p>
+        <nav class="actions" aria-label="Quick actions">
+          <a href="#menu" class="action"><svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>Menu</a>
+          <a href="#hours" class="action"><svg aria-hidden="true" focusable="false"><use href="#i-hours"/></svg>Hours</a>
+          <a href="#carry-out" class="action primary">
+            <svg aria-hidden="true" focusable="false"><use href="#i-call"/></svg>
+            <span>Call for Carry-Out</span>
+          </a>
+          <a href="#visit" class="action">
+            <svg aria-hidden="true" focusable="false"><use href="#i-locator"/></svg>
+            <span>Directions</span>
+          </a>
         </nav>
+        <div class="hero-links">
+          <a href="#discounts">Discounts for our heroes</a>
+          <a href="#story">Our Family Story <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+        </div>
       </div>
-      <div id="mobile-menu" class="hidden md:hidden bg-primary">
-        <ul class="flex flex-col items-center space-y-2 p-4">
-          <li><a href="#home" class="hover:underline hover:text-tertiary">Home</a></li>
-          <li><a href="#about" class="hover:underline hover:text-tertiary">About</a></li>
-          <li><a href="#gallery" class="hover:underline hover:text-tertiary">Gallery</a></li>
-          <li><a href="#hours" class="hover:underline hover:text-tertiary">Hours</a></li>
-          <li><a href="#menu" class="hover:underline hover:text-tertiary">Menu</a></li>
-          <li><a href="#reviews" class="hover:underline hover:text-tertiary">Reviews</a></li>
-          <li><a href="#discounts" class="hover:underline hover:text-tertiary">Discounts</a></li>
-          <li><a href="#order" class="hover:underline hover:text-tertiary">Order</a></li>
-        </ul>
-      </div>
-    </header>
-
-    <main id="main">
-      <!-- ====== Hero ====== -->
-      <section
-        id="home"
-        class="bg-cover bg-center h-screen relative scroll-mt-16"
-        style="background-image: url('https://spinners.pizza/assets/images/background/current.jpg?raw=true');"
-      >
-        <div class="absolute inset-0 z-10 bg-black/50"></div>
-        <div
-          class="relative z-10 h-full flex flex-col items-center justify-center text-center text-secondary p-6"
-          style="perspective: 1000px;"
-        >
-          <div class="border-4 border-red-600 rounded-full p-2 animate-rotate">
-            <div class="border-4 border-white rounded-full p-2">
-              <div class="border-4 border-tertiary rounded-full">
-                <img
-                  src="https://spinners.pizza/assets/images/logos/1.png?raw=true"
-                  id="logo"
-                  alt="Rotating Spinners Pizza emblem"
-                  class="h-32 w-32 rounded-full object-cover"
-                  onerror="this.onerror=null; this.src='https://picsum.photos/160';"
-                  loading="eager"
-                  fetchpriority="high"
-                >
-              </div>
-            </div>
-          </div>
-          <h2 class="text-3xl sm:text-5xl font-bold mt-6 mb-3">Welcome to Spinners Pizza</h2>
-          <p class="text-lg sm:text-xl mb-6">Grovespring’s spot for handcrafted pizza, BBQ, burgers &amp; more.</p>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <a href="tel:14174627746" class="bg-primary px-6 py-3 rounded text-lg hover:bg-red-600 transition-colors"
-              >Call&nbsp;(417)&nbsp;462&#8209;7746</a
-            >
-            <a
-              href="#menu"
-              class="bg-white text-black px-6 py-3 rounded text-lg hover:bg-tertiary-light transition-colors"
-              >Explore Menu</a
-            >
-          </div>
-          <p id="open-status" class="mt-4 text-sm bg-white/20 px-3 py-1 rounded" aria-live="polite"></p>
-        </div>
-      </section>
-
-      <!-- ====== Discounts ====== -->
-      <section id="discounts" class="py-12 bg-primary text-secondary scroll-mt-16">
-        <div class="container mx-auto text-center px-6">
-          <h3 class="text-2xl sm:text-3xl font-bold mb-3">Discounts for Our Heroes</h3>
-          <p class="text-base sm:text-lg">
-            We honor service members, police, firefighters, and first responders with special discounts.
-          </p>
-        </div>
-      </section>
-
-      <!-- ====== Hours + Gallery ====== -->
-      <section class="py-12 bg-gray-100">
-        <div class="container mx-auto px-6">
-          <div id="wrapper_hours_gallery" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Hours -->
-            <div id="hours" class="flex items-center justify-center p-6 scroll-mt-16">
-              <div class="hours-card text-center rounded-lg shadow-md">
-                <h3 id="hours-title" class="text-xl sm:text-2xl font-bold">Hours</h3>
-                <ul id="hours-days" class="text-sm sm:text-base"></ul>
-                <div id="hours-notes" class="mt-4 font-semibold text-xs"></div>
-              </div>
-            </div>
-
-            <!-- Gallery -->
-            <div id="gallery" class="p-6 rounded-md scroll-mt-16 bg-white shadow-sm">
-              <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-center bg-red-500 text-white py-2 rounded">
-                Take a spin around our place!
-              </h3>
-              <p class="mb-6 text-base sm:text-lg">
-                Cozy dining that’s perfect for dates, families, and parties—served by an exceptional, welcoming team.
-              </p>
-              <div id="gallery-images" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- images injected -->
-              </div>
-            </div>
+      <figure class="hero-art" id="hero-art">
+        <div class="photo-placeholder" aria-hidden="true"><svg focusable="false"><use href="#i-menu"/></svg></div>
+        <img id="hero-photo" src="assets/images/background/current.jpg"
+          srcset="assets/images/counter-ticket/pizza-720.jpg 720w, assets/images/counter-ticket/pizza-1200.jpg 1200w, assets/images/background/current.jpg 1863w"
+          sizes="(max-width: 700px) calc(100vw - 32px), (max-width: 1280px) 45vw, 573px"
+          alt="Spinners pizza topped with pepperoni, sausage and green peppers" width="1863" height="1001" fetchpriority="high">
+        <div class="seal" aria-hidden="true">
+          <div id="medallion">
+            <img id="chef" src="assets/images/logos/1.png" alt="" width="500" height="500">
           </div>
         </div>
-      </section>
-
-      <!-- ====== Menu ====== -->
-      <section id="menu" class="py-12 scroll-mt-16">
-        <div class="container mx-auto px-6">
-          <h3
-            id="menu-title"
-            class="text-2xl sm:text-3xl font-bold mb-4 text-center bg-red-500 text-white py-2 rounded"
-          >
-            Our Menu
-          </h3>
-
-          <div id="menu-note" class="text-center mt-6 text-blue-600 font-bold pb-5"></div>
-
-          <div id="menu-sections" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <!-- sections injected -->
-          </div>
-
-          <div class="mt-8">
-            <div id="menu-images" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
-              <!-- menu images injected -->
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====== Reviews ====== -->
-      <section id="reviews" class="py-12 scroll-mt-16">
-        <div class="container mx-auto text-center px-6">
-          <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-center bg-red-500 text-white py-2 rounded">
-            Customer Reviews
-          </h3>
-          <p class="text-base sm:text-lg mb-6">What our guests are saying</p>
-          <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded shadow">
-            <div id="review-carousel" class="flex">
-              <!-- reviews injected -->
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====== Location / Order ====== -->
-      <section id="order" class="py-12 scroll-mt-16">
-        <div class="container mx-auto px-6 text-center">
-          <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-center bg-red-500 text-white py-2 rounded">
-            Where we’re located
-          </h3>
-          <address class="not-italic">
-            <p class="mb-2"><strong>Address: 9537 MO-5, Grovespring, MO 65662</strong></p>
-            <p class="mb-2">Call for carry-out: <a href="tel:14174627746"><b>(417)&nbsp;462&#8209;7746</b></a></p>
-          </address>
-          <div class="w-full h-64 sm:h-96 mt-6 rounded overflow-hidden shadow">
-            <iframe
-              class="w-full h-full"
-              title="Spinners Pizza on Google Maps"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.371964378669!2d-92.60439042413377!3d37.40468217208095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c55157bff0a993%3A0x8bf775b1d6a5af4d!2sSpinners%20Restaurant!5e0!3m2!1sen!2sus!4v1732477221013!5m2!1sen!2sus"
-              style="border:0;"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              allowfullscreen=""
-            ></iframe>
-          </div>
-          <div class="mt-4">
-            <a
-              class="underline text-blue-700"
-              target="_blank"
-              rel="noopener"
-              href="https://www.google.com/maps/dir/?api=1&amp;destination=9537%20MO-5%2C%20Grovespring%2C%20MO%2065662"
-              >Get Directions</a
-            >
-          </div>
-        </div>
-      </section>
-
-      <!-- ====== About ====== -->
-      <section id="about" class="scroll-mt-16 min-h-screen bg-gray-50 py-20">
-        <div class="max-w-5xl mx-auto px-6">
-          <div class="bg-white shadow-lg rounded-2xl px-6 py-10 sm:px-10 sm:py-12">
-            <h3
-              id="about-title"
-              class="text-2xl sm:text-3xl font-bold mb-6 text-center bg-red-500 text-white py-2 rounded"
-            >
-              About Spinners Pizza
-            </h3>
-            <div class="flex flex-col md:flex-row items-center md:space-x-6">
-              <div class="w-full md:w-5/12 flex justify-center">
-                <img
-                  id="about-image"
-                  class="h-auto max-h-[420px] object-contain rounded shadow"
-                  src="https://spinners.pizza/assets/images/background/1.png"
-                  alt="Inside Spinners Pizza"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </div>
-              <div id="about-paragraphs" class="w-full md:w-7/12 mt-6 md:mt-0 text-center md:text-left space-y-4">
-                <!-- Improved copy inserted via JS (with fallback below) -->
-                <p class="text-gray-700 leading-relaxed">
-                  At Spinners Pizza, every slice tells a story. Since 2016, Tim and Brenda Klein have poured family,
-                  faith, and hard work into a neighborhood spot where friends become regulars and regulars become
-                  family.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                  Our roots run deep. Their daughter, Shannon Lasure (Klein)—a dedicated chiropractor—continues to
-                  inspire us with her courageous fight against brain cancer. Their son Brandon carries the torch at the
-                  original Spinners in Stoughton, WI, while Tim and Brenda build a new adventure here in Missouri.
-                  Another son proudly serves in the Marines.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                  From handcrafted pizzas and our custom Hoagie Burgers to smoky BBQ and sweet desserts, we cook with
-                  purpose and pride. One of the area’s largest specialty pizza selections means there’s always something
-                  new to love.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                  To our community: thank you for the love and support—especially for Shannon and the Klein &amp; Lasure
-                  families. Let’s keep the Spinner’s spirit alive and spinning. 🍕❤️
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="bg-gray-800 text-secondary text-center p-4">
-      <p>© <span id="year"></span> Spinners Pizza. All rights reserved.</p>
-    </footer>
-
-    <!-- ====== Gallery Modal ====== -->
-    <div id="gallery-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-gallery-description">
-      <div class="image-container">
-        <button class="modal-button" aria-label="Close gallery" onclick="closeGalleryModal()" type="button">
-          &times;
-        </button>
-        <img
-          id="gallery-modal-image"
-          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-          alt="Gallery image enlarged"
-        >
-        <button
-          class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded"
-          onclick="prevGalleryImage()"
-          aria-label="Previous image"
-          type="button"
-        >
-          ‹
-        </button>
-        <button
-          class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded"
-          onclick="nextGalleryImage()"
-          aria-label="Next image"
-          type="button"
-        >
-          ›
-        </button>
-      </div>
+        <button type="button" class="motion-control" id="motion-control" hidden>Pause emblem</button>
+        <figcaption id="hero-caption">Pizza · Restaurant photo</figcaption>
+      </figure>
+    </section>
+<section class="visit-strip" id="hours" aria-labelledby="hours-title">
+  <div class="wrap strip-inner">
+    <div class="strip-intro">
+      <svg aria-hidden="true" focusable="false"><use href="#i-hours"/></svg>
+      <div><h2 id="hours-title">Check your visit</h2><p>Published hours · Grovespring local time</p></div>
     </div>
-
-    <!-- ====== Menu Modal ====== -->
-    <div id="menu-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-menu-description">
-      <div class="image-container">
-        <button class="modal-button" aria-label="Close menu image" onclick="closeMenuModal()" type="button">
-          &times;
-        </button>
-        <img
-          id="menu-modal-image"
-          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-          alt="Menu image enlarged"
-        >
-        <button
-          class="absolute top-1/2 left-4 -translate-y-1/2 text-white text-3xl p-2 bg-red-600 rounded"
-          onclick="prevMenuImage()"
-          aria-label="Previous image"
-          type="button"
-        >
-          ‹
-        </button>
-        <button
-          class="absolute top-1/2 right-4 -translate-y-1/2 text-white text-3xl p-2 bg-blue-600 rounded"
-          onclick="nextMenuImage()"
-          aria-label="Next image"
-          type="button"
-        >
-          ›
-        </button>
-      </div>
+    <div class="strip-status">
+      <p class="status"><span>See weekly hours</span>
+        <span>Call to confirm hours for a specific date.</span></p>
     </div>
+    <details id="hours-details" class="ticket">
+      <summary>Hours &amp; date check</summary>
+      <div class="ticket-body">
+        <div><h3>Posted weekly hours</h3>
+        <p class="small">Call to confirm hours for your visit date.</p>
+        <dl class="weekly"><div><dt>Monday</dt><dd>11 am–8 pm</dd></div>
+<div><dt>Tuesday</dt><dd>11 am–8 pm</dd></div>
+<div><dt>Wednesday</dt><dd>Closed</dd></div>
+<div><dt>Thursday</dt><dd>11 am–9 pm</dd></div>
+<div><dt>Friday</dt><dd>11 am–9 pm</dd></div>
+<div><dt>Saturday</dt><dd>11 am–9 pm</dd></div>
+<div><dt>Sunday</dt><dd>11 am–6 pm</dd></div></dl>
+        <h3>Seasonal and holiday notes</h3><ul><li>Please note that these are our winter operating hours. Check back for updates on our regular hours.</li>
+<li>We are closed Thanksgiving Day, December 23rd thru December 26th, Easter Sunday, and 4th of July.</li></ul></div>
+        <div class="check">
+          <div class="date-tools" hidden>
+            <label for="visit-date">Visit date</label>
+            <input type="date" id="visit-date" autocomplete="off">
+            <p class="status date-result" id="date-result" role="status" aria-atomic="true" data-state="unknown">
+              <span id="result-title">Hours unconfirmed</span>
+              <span id="result-text">Choose a visit date or call to check.</span>
+            </p>
+          </div>
+          <p class="small"><span>Call to check hours</span> <a class="text-link" href="tel:+14174627746">(417)&nbsp;462&#8209;7746</a></p>
+        </div>
+      </div>
+    </details>
+  </div>
+  <script id="published-hours" type="application/json">null</script>
+</section>
+<section id="menu" class="wrap section" aria-labelledby="menu-title">
+  <div class="section-heading">
+    <h2 id="menu-title">On the menu</h2>
+    <a href="#scoops" class="text-link">Desserts <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-column"><details class="menu-group" open>
+  <summary>Specialty Pizzas</summary>
+  <div class="menu-body"><img src="assets/images/food/chicken-alfredo-pizza.jpg" width="1528" height="1224" alt="" loading="lazy" decoding="async"><ul><li>Alfredo Chicken Pizza ⭐</li>
+<li>A-1 Steak Pizza</li>
+<li>Bacon Cheeseburger Pizza</li>
+<li>BBQ Chicken Pizza</li>
+<li>Hawaiian Pizza</li>
+<li>Cheesy Potato Delight</li></ul></div>
+</details>
+<details class="menu-group" open>
+  <summary>Create Your Own Pizza</summary>
+  <div class="menu-body"><ul><li>Original Hand Tossed ✅</li>
+<li>Gluten-Free ✅</li>
+<li>All your favorite toppings✅</li></ul></div>
+</details>
+<details class="menu-group" open>
+  <summary>House Specials</summary>
+  <div class="menu-body"><img src="assets/images/food/gyro-seasoned-fries.jpg" width="428" height="343" alt="" loading="lazy" decoding="async"><ul><li>Gyro with fries ⭐</li>
+<li>Chicken Alfredo</li>
+<li>Homemade Lasagna</li>
+<li>Daily Fried Frog Legs and Fish</li></ul></div>
+</details></div>
+    <div class="menu-column"><details class="menu-group" open>
+  <summary>Burgers</summary>
+  <div class="menu-body"><img src="assets/images/food/hoagie-burger-and-fries.jpg" width="1128" height="904" alt="" loading="lazy" decoding="async"><ul><li>Hoagie Burgers ⭐</li>
+<li>Spinner Special Smoked Burger</li>
+<li>Radar Burger</li>
+<li>Hawaiian Burger</li>
+<li>Big &amp; Wolf Burger</li></ul></div>
+</details>
+<details class="menu-group" open>
+  <summary>Appetizers</summary>
+  <div class="menu-body"><ul><li>Garlic Breadsticks ⭐</li>
+<li>Mac &#39;n Cheese Bacon Nuggets</li>
+<li>Jalapeño Poppers</li>
+<li>Mozzarella Sticks</li>
+<li>Chicken Wings</li>
+<li>Garlic Cheese Bread</li></ul></div>
+</details>
+<details class="menu-group" open>
+  <summary>Drinks &amp; Dessert</summary>
+  <div class="menu-body"><ul><li>Fountain Drinks ⭐</li>
+<li>Bottled Beverages</li>
+<li>Cookies</li></ul></div>
+</details></div>
+  </div>
+  <p class="menu-note">★ Serving frog legs and fish daily ★</p>
+</section>
 
-    <!-- ====== App Script ====== -->
-    <script>
-    // Data holders
-    let aboutData = {};
-    let hoursData = {};
-    let galleryData = [];
-    let menuData = {};
-    let reviewsData = [];
+<section id="scoops" class="wrap section" aria-labelledby="scoop-title">
+  <div class="scoop-panel">
+    <figure>
+      <img src="assets/images/counter-ticket/illustrations/scoop-counter.webp" width="875" height="1024" alt="Ink illustration of a sundae and a malt glass" loading="lazy" decoding="async">
+      <figcaption>Illustration</figcaption>
+    </figure>
+    <div class="scoop-copy">
+      <svg aria-hidden="true" focusable="false"><use href="#i-scoop"/></svg>
+      <h2 id="scoop-title">The scoop counter</h2>
+      <p>More than 25 flavors of Kemps ice cream, plus shakes, malts and sundaes.</p>
+    </div>
+  </div>
+</section>
 
-    // Fetch JSON Data (with graceful fallbacks)
-    async function fetchData() {
-      try {
-        const [aboutResponse, hoursResponse, galleryResponse, menuResponse, reviewsResponse] = await Promise.all([
-          fetch("data/about.json"),
-          fetch("data/hours.json"),
-          fetch("data/gallery.json"),
-          fetch("data/menu.json"),
-          fetch("data/reviews.json"),
-        ]);
+<section id="discounts" class="discount-band" aria-labelledby="discount-title">
+  <div class="wrap discount-inner">
+    <div>
+      <h2 id="discount-title">Discounts for our heroes</h2>
+      <p>We honor service members, police, firefighters, and first responders with special discounts.</p>
+    </div>
+    <figure>
+      <img src="assets/images/counter-ticket/illustrations/pizza-boxes.webp" width="610" height="501" alt="" loading="lazy" decoding="async">
+      <figcaption>Illustration</figcaption>
+    </figure>
+  </div>
+</section>
 
-        if (aboutResponse.ok) aboutData = await aboutResponse.json();
-        if (hoursResponse.ok) hoursData = await hoursResponse.json();
-        if (galleryResponse.ok) galleryData = await galleryResponse.json();
-        if (menuResponse.ok) menuData = await menuResponse.json();
-        if (reviewsResponse.ok) reviewsData = await reviewsResponse.json();
-      } catch (e) {
-        console.warn("Data fetch failed, using fallbacks.", e);
-      } finally {
-        populateAboutSection();
-        populateHoursSection();
-        populateGallerySection();
-        populateMenuSection();
-        populateReviewsSection();
-        initializeReviewCarousel();
-        updateOpenStatus();
-        injectDynamicRestaurantJSONLD(); // optional structured hours if parsable
-      }
-    }
+<section id="story" class="wrap section story" aria-labelledby="story-title">
+  <div>
+    <h2 id="story-title"><span id="about">Our family story</span></h2>
+    <p>Tim and Brenda Klein have made Spinners a gathering place in Grovespring since 2016. Their son Brandon carries on the original Spinners in Stoughton, Wisconsin.</p>
+  </div>
+  <figure><img src="assets/images/counter-ticket/dining-05.jpg" width="640" height="482" alt="Dining Room from Counter" loading="lazy" decoding="async"><figcaption>Grovespring dining room · Restaurant photo</figcaption></figure>
+</section>
 
-    // ====== About ======
-    function populateAboutSection() {
-      // Title
-      const aboutTitle = aboutData?.title || "About Spinners Pizza";
-      document.getElementById("about-title").textContent = aboutTitle;
+<section id="gallery" class="wrap section" aria-labelledby="gallery-title">
+  <div class="section-heading"><h2 id="gallery-title">Inside Spinners</h2><span>Restaurant photos</span></div>
+  <div class="gallery-grid"><a href="assets/images/restaurant/02%20walking%20in%20from%20front%20door%20looking%20at%20the%20dining%20room.jpg" data-gallery><img src="assets/images/counter-ticket/dining-02.jpg" width="640" height="482" alt="Walking into Dining Room" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/03%20straight%20from%20the%20entrance%20looking%20at%20the%20counter.jpg" data-gallery><img src="assets/images/counter-ticket/dining-03.jpg" width="640" height="482" alt="Looking at the Counter" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/04%20view%20from%20counter%20looking%20at%20the%20door%20to%20the%20restaurant%20and%20the%20restrooms.jpg" data-gallery><img src="assets/images/counter-ticket/dining-04.jpg" width="640" height="482" alt="Door to Restaurant and Restrooms" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/05%20view%20of%20dining%20room%20from%20the%20counter.jpg" data-gallery><img src="assets/images/counter-ticket/dining-05.jpg" width="640" height="482" alt="Dining Room from Counter" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/06%20dining%20area.jpg" data-gallery><img src="assets/images/counter-ticket/dining-06.jpg" width="640" height="482" alt="Dining Area 1" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/07%20dining%20area.jpg" data-gallery><img src="assets/images/restaurant/07%20dining%20area.jpg" width="600" height="452" alt="Dining Area 2" loading="lazy" decoding="async"></a>
+<a href="assets/images/restaurant/08%20dining%20area.jpg" data-gallery><img src="assets/images/counter-ticket/dining-08.jpg" width="640" height="482" alt="Dining Area 3" loading="lazy" decoding="async"></a></div>
+</section>
 
-      // Image (fallback already in markup)
-      const aboutImage = document.getElementById("about-image");
-      if (aboutData?.image) aboutImage.src = aboutData.image;
+<section id="reviews" class="wrap section" aria-labelledby="reviews-title">
+  <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><span>From the Spinners website</span></div>
+  <div class="reviews-grid"><figure>
+  <blockquote>The food was great! Had a side salad, garlic cheese sticks, and a small deluxe pizza! Everything was super fresh and super tasty! The two young girls that were working were nice and attentive! Would definitely recommend! Stop by if you are close!</blockquote>
+  <figcaption><a href="https://maps.app.goo.gl/8FukpDRr5WbMhpGTA">Ashley Alderson</a></figcaption>
+</figure>
+<figure>
+  <blockquote>Delicious pizza! The BBQ Chicken bacon ranch pizza was amazing. Great service as well. Will be going back soon.</blockquote>
+  <figcaption><a href="https://maps.app.goo.gl/jsMFxSnMSP1J1sbFA">Charlie Maddux</a></figcaption>
+</figure>
+<figure>
+  <blockquote>The pizza was amazing! If you are looking for a great thin crust pizza! We will be coming back!</blockquote>
+  <figcaption><a href="https://maps.app.goo.gl/QCYmuxvz9aaXoYar9">Eva Hlubik</a></figcaption>
+</figure>
+<figure>
+  <blockquote>This place is awesome! The fried catfish was perfect. The menu selection is so large that everyone will find a favorite.</blockquote>
+  <figcaption><a href="https://maps.app.goo.gl/PFfH7PBL77W7xKK69">Elizabeth Meyer</a></figcaption>
+</figure></div>
+</section>
 
-      // Paragraphs (if provided, replace defaults)
-      const wrap = document.getElementById("about-paragraphs");
-      if (Array.isArray(aboutData?.paragraphs) && aboutData.paragraphs.length) {
-        wrap.innerHTML = "";
-        aboutData.paragraphs.forEach((paragraph) => {
-          const p = document.createElement("p");
-          p.className = "text-gray-700 leading-relaxed";
-          p.textContent = paragraph;
-          wrap.appendChild(p);
-        });
-      }
-    }
-
-    // ====== Hours ======
-    function populateHoursSection() {
-      const title = hoursData?.title || "Hours";
-      document.getElementById("hours-title").textContent = title;
-      const list = document.getElementById("hours-days");
-      list.innerHTML = "";
-
-      if (Array.isArray(hoursData?.days)) {
-        hoursData.days.forEach((day) => {
-          const li = document.createElement("li");
-          li.textContent = `${day.day}: ${day.hours}`;
-          list.appendChild(li);
-        });
-      } else {
-        list.innerHTML = "<li>Please call for today’s hours: (417)&nbsp;462&#8209;7746</li>";
-      }
-
-      const notes = document.getElementById("hours-notes");
-      notes.innerHTML = "";
-      if (Array.isArray(hoursData?.notes)) {
-        hoursData.notes.forEach((n) => {
-          const p = document.createElement("p");
-          p.textContent = n;
-          notes.appendChild(p);
-        });
-      }
-    }
-
-    // Derive "Open now" text if hours are in a common format like "11am - 9pm"
-    function updateOpenStatus() {
-      try {
-        if (!Array.isArray(hoursData?.days)) return;
-        const now = new Date();
-        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const today = dayNames[now.getDay()];
-        const todayRow = hoursData.days.find((d) => d.day.toLowerCase().includes(today.toLowerCase()));
-        if (!todayRow) return;
-        const text = todayRow.hours.toLowerCase();
-
-        if (text.includes("closed")) {
-          document.getElementById("open-status").textContent = `Closed now • ${today}: ${todayRow.hours}`;
-          return;
-        }
-
-        // Basic parse "11am - 9pm" -> open/close Date
-        const timeToDate = (t) => {
-          const match = t.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/);
-          if (!match) return null;
-          let [, h, m = "0", ap] = match;
-          h = parseInt(h, 10);
-          m = parseInt(m, 10);
-          if (ap === "pm" && h !== 12) h += 12;
-          if (ap === "am" && h === 12) h = 0;
-          const d = new Date(now);
-          d.setHours(h, m, 0, 0);
-          return d;
-        };
-
-        const parts = todayRow.hours.replace("–", "-").split("-");
-        if (parts.length === 2) {
-          const open = timeToDate(parts[0]);
-          const close = timeToDate(parts[1]);
-          if (open && close) {
-            const openNow = now >= open && now <= close;
-            document.getElementById("open-status").textContent =
-              `${openNow ? "Open now" : "Closed now"} • ${today}: ${todayRow.hours}`;
-          }
-        }
-      } catch {
-        // silent
-      }
-    }
-
-    // ====== Gallery ======
-    let currentGalleryIndex = 0;
-    function populateGallerySection() {
-      const galleryImagesDiv = document.getElementById("gallery-images");
-      galleryImagesDiv.innerHTML = "";
-      (galleryData || []).forEach((image, index) => {
-        const img = document.createElement("img");
-        img.src = image.src;
-        img.alt = image.alt || `Spinners Pizza gallery image ${index + 1}`;
-        img.className = "cursor-pointer rounded-md transition-transform duration-300 hover:scale-105";
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.onclick = () => openGalleryModal(index);
-        img.onerror = function () {
-          this.onerror = null;
-          this.src = `https://picsum.photos/600/400?random=${index + 20}`;
-        };
-        galleryImagesDiv.appendChild(img);
-      });
-    }
-
-    // ====== Menu ======
-    let currentMenuIndex = 0;
-    function populateMenuSection() {
-      document.getElementById("menu-title").textContent = menuData?.title || "Our Menu";
-      document.getElementById("menu-note").textContent = menuData?.note || "";
-
-      const menuSectionsDiv = document.getElementById("menu-sections");
-      menuSectionsDiv.innerHTML = "";
-      (menuData?.sections || []).forEach((section, index) => {
-        const sectionDiv = document.createElement("div");
-        sectionDiv.className = "bg-white p-6 rounded-md shadow-md border border-blue-500";
-
-        const img = document.createElement("img");
-        img.src = section.photo;
-        img.alt = `${section.title} photo`;
-        img.className = "w-full rounded-md mb-4";
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.onerror = function () {
-          this.onerror = null;
-          this.src = `https://picsum.photos/400/300?random=${index + 100}`;
-        };
-        sectionDiv.appendChild(img);
-
-        const h4 = document.createElement("h4");
-        h4.className = "text-xl sm:text-2xl font-semibold text-blue-600 mb-3";
-        h4.textContent = section.title;
-        sectionDiv.appendChild(h4);
-
-        const ul = document.createElement("ul");
-        ul.className = "list-disc ml-4 text-gray-800";
-        (section.items || []).forEach((item) => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          ul.appendChild(li);
-        });
-        sectionDiv.appendChild(ul);
-
-        menuSectionsDiv.appendChild(sectionDiv);
-      });
-
-      const menuImagesDiv = document.getElementById("menu-images");
-      menuImagesDiv.innerHTML = "";
-      (menuData?.images || []).forEach((src, index) => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = `Menu image ${index + 1}`;
-        img.className = "cursor-pointer rounded-md transition-transform duration-300 hover:scale-105 mx-auto";
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.onclick = () => openMenuModal(index);
-        img.onerror = function () {
-          this.onerror = null;
-          this.src = `https://picsum.photos/400/300?random=${index + 200}`;
-        };
-        menuImagesDiv.appendChild(img);
-      });
-    }
-
-    // ====== Reviews ======
-    function populateReviewsSection() {
-      const reviewCarousel = document.getElementById("review-carousel");
-      reviewCarousel.innerHTML = "";
-      (reviewsData || []).forEach((review, idx) => {
-        const a = document.createElement("a");
-        a.href = "#";
-        a.className = "w-full flex-shrink-0 flex flex-col items-center justify-center text-center p-6";
-        a.setAttribute("aria-label", `Review ${idx + 1}`);
-        const card = document.createElement("div");
-        card.className = "bg-white p-8 rounded-md shadow-md h-full flex flex-col justify-center";
-        const pReview = document.createElement("p");
-        pReview.className = "italic text-lg";
-        pReview.textContent = `"${review.review}"`;
-        const pAuthor = document.createElement("p");
-        pAuthor.className = "mt-4 font-semibold";
-        pAuthor.textContent = `– ${review.author}`;
-        card.appendChild(pReview);
-        card.appendChild(pAuthor);
-        a.appendChild(card);
-        reviewCarousel.appendChild(a);
-      });
-    }
-
-    function initializeReviewCarousel() {
-      const carousel = document.getElementById("review-carousel");
-      const slides = carousel.children.length;
-      if (!slides) return;
-      let current = 0;
-      setInterval(() => {
-        current = (current + 1) % slides;
-        carousel.style.transform = `translateX(-${current * 100}%)`;
-      }, 5000);
-    }
-
-    // ====== Modals ======
-    const galleryModal = document.getElementById("gallery-modal");
-    const galleryModalImage = document.getElementById("gallery-modal-image");
-    function openGalleryModal(index) {
-      currentGalleryIndex = index;
-      galleryModalImage.src = galleryData[currentGalleryIndex].src;
-      galleryModal.classList.add("open");
-      document.body.classList.add("modal-open");
-    }
-    function closeGalleryModal() {
-      galleryModal.classList.remove("open");
-      document.body.classList.remove("modal-open");
-    }
-    function prevGalleryImage() {
-      currentGalleryIndex = (currentGalleryIndex - 1 + galleryData.length) % galleryData.length;
-      galleryModalImage.src = galleryData[currentGalleryIndex].src;
-    }
-    function nextGalleryImage() {
-      currentGalleryIndex = (currentGalleryIndex + 1) % galleryData.length;
-      galleryModalImage.src = galleryData[currentGalleryIndex].src;
-    }
-    galleryModal.addEventListener("click", (e) => {
-      if (e.target === galleryModal || e.target.classList.contains("modal-button")) closeGalleryModal();
-    });
-
-    const menuModal = document.getElementById("menu-modal");
-    const menuModalImage = document.getElementById("menu-modal-image");
-    function openMenuModal(index) {
-      currentMenuIndex = index;
-      menuModalImage.src = menuData.images[currentMenuIndex];
-      menuModal.classList.add("open");
-      document.body.classList.add("modal-open");
-    }
-    function closeMenuModal() {
-      menuModal.classList.remove("open");
-      document.body.classList.remove("modal-open");
-    }
-    function prevMenuImage() {
-      currentMenuIndex = (currentMenuIndex - 1 + menuData.images.length) % menuData.images.length;
-      menuModalImage.src = menuData.images[currentMenuIndex];
-    }
-    function nextMenuImage() {
-      currentMenuIndex = (currentMenuIndex + 1) % menuData.images.length;
-      menuModalImage.src = menuData.images[currentMenuIndex];
-    }
-    menuModal.addEventListener("click", (e) => {
-      if (e.target === menuModal || e.target.classList.contains("modal-button")) closeMenuModal();
-    });
-
-    // ====== Keyboard Nav ======
-    document.addEventListener("keydown", (e) => {
-      if (galleryModal.classList.contains("open")) {
-        if (e.key === "Escape") closeGalleryModal();
-        else if (e.key === "ArrowLeft") prevGalleryImage();
-        else if (e.key === "ArrowRight") nextGalleryImage();
-      }
-      if (menuModal.classList.contains("open")) {
-        if (e.key === "Escape") closeMenuModal();
-        else if (e.key === "ArrowLeft") prevMenuImage();
-        else if (e.key === "ArrowRight") nextMenuImage();
-      }
-    });
-
-    // ====== Random Rotating Logo (non-repeating) ======
-    const logo = document.getElementById("logo");
-    let lastLogoNumber = 0;
-    function setRandomLogo() {
-      let n;
-      do {
-        n = Math.floor(Math.random() * 6) + 1;
-      } while (n === lastLogoNumber);
-      lastLogoNumber = n;
-      logo.src = `https://spinners.pizza/assets/images/logos/${n}.png?raw=true`;
-    }
-    setRandomLogo();
-    setInterval(setRandomLogo, 4000);
-
-    // ====== Mobile Menu Toggle (with ARIA) ======
-    const menuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    menuButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const open = mobileMenu.classList.toggle("hidden");
-      menuButton.setAttribute("aria-expanded", String(!open));
-    });
-    document.addEventListener("click", (event) => {
-      if (
-        !mobileMenu.classList.contains("hidden") &&
-        !mobileMenu.contains(event.target) &&
-        !menuButton.contains(event.target)
-      ) {
-        mobileMenu.classList.add("hidden");
-        menuButton.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    // ====== Dynamic JSON-LD for hours (only if we can parse basic patterns) ======
-    function injectDynamicRestaurantJSONLD() {
-      try {
-        if (!Array.isArray(hoursData?.days)) return;
-        const mapDay = {
-          mon: "Monday",
-          monday: "Monday",
-          tue: "Tuesday",
-          tues: "Tuesday",
-          tuesday: "Tuesday",
-          wed: "Wednesday",
-          weds: "Wednesday",
-          wednesday: "Wednesday",
-          thu: "Thursday",
-          thur: "Thursday",
-          thurs: "Thursday",
-          thursday: "Thursday",
-          fri: "Friday",
-          friday: "Friday",
-          sat: "Saturday",
-          saturday: "Saturday",
-          sun: "Sunday",
-          sunday: "Sunday",
-        };
-        const ohs = [];
-        const timeMatch = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)\s*-\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i;
-
-        hoursData.days.forEach(({ day, hours }) => {
-          const key = (day || "").toLowerCase().trim();
-          const dayName = mapDay[key] || day;
-          if (!dayName) return;
-
-          if (String(hours).toLowerCase().includes("closed")) {
-            // Skip closed days
-            return;
-          }
-          const m = String(hours).toLowerCase().replace("–", "-").match(timeMatch);
-          if (!m) return;
-
-          const [, oh, om = "00", oap, ch, cm = "00", cap] = m;
-          const to24 = (h, min, ap) => {
-            let H = parseInt(h, 10);
-            if (ap === "pm" && H !== 12) H += 12;
-            if (ap === "am" && H === 12) H = 0;
-            return `${String(H).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
-          };
-          ohs.push({
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: dayName,
-            opens: to24(oh, om, oap),
-            closes: to24(ch, cm, cap),
-          });
-        });
-
-        if (ohs.length) {
-          const base = {
-            "@context": "https://schema.org",
-            "@type": "Restaurant",
-            "@id": "https://spinners.pizza/#restaurant-hours",
-            name: "Spinners Pizza",
-            url: "https://spinners.pizza/",
-            openingHoursSpecification: ohs,
-          };
-          const script = document.createElement("script");
-          script.type = "application/ld+json";
-          script.textContent = JSON.stringify(base);
-          document.head.appendChild(script);
-        }
-      } catch {
-        // silent
-      }
-    }
-
-    // ====== On Load ======
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("year").textContent = new Date().getFullYear();
-      fetchData();
-    });
-
-    // ====== Accessibility: reduce motion respect ======
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const rot = document.querySelector(".animate-rotate");
-      if (rot) rot.style.animation = "none";
-    }
-    </script>
-  </body>
+<dialog id="photo-dialog" aria-labelledby="photo-label">
+  <div>
+    <h2 id="photo-label">Restaurant photo</h2>
+    <form method="dialog"><button type="submit" id="close-photo" autofocus>Close</button></form>
+  </div>
+</dialog>
+    <section id="visit" class="visit-section" aria-labelledby="visit-title">
+      <div id="order" class="wrap section">
+        <div class="section-heading">
+          <h2 id="visit-title">Visit or carry out</h2>
+          <a class="text-link" href="#hours">Check hours <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+        </div>
+        <div class="visit-grid">
+          <div class="locator">
+<figure class="locator-art">
+  <img src="assets/images/counter-ticket/illustrations/ozarks.webp" width="648" height="492" alt="Illustrated road through the Ozarks hills" loading="lazy" decoding="async">
+  <figcaption>Ozarks illustration</figcaption>
+</figure>
+            <div class="locator-copy">
+              <svg aria-hidden="true" focusable="false"><use href="#i-locator"/></svg>
+              <h3>9537 MO-5, Grovespring, MO 65662</h3>
+              <a class="text-link" href="https://www.google.com/maps?cid=10087945801653444493">Open in Google Maps <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+            </div>
+          </div>
+          <div class="carry">
+            <svg aria-hidden="true" focusable="false"><use href="#i-call"/></svg>
+            <h3>Carry-out</h3>
+            <details id="carry-out-details" class="call-ticket">
+              <summary>Show carry-out number</summary>
+              <div class="call-body" id="carry-out" tabindex="-1">
+                <p class="number" id="carry-out-number">(417)&nbsp;462-7746</p>
+                <a class="text-link" href="tel:+14174627746" aria-describedby="carry-out-number">Open&nbsp;dialer</a>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="mast">
+    <div class="wrap footer-inner">
+      <a href="#top" class="brand">
+        <img src="assets/images/logos/1.png" alt="" width="42" height="42">
+        <span>Spinners Pizza</span>
+      </a>
+      <p>Grovespring, Missouri</p>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+</body>
 </html>
