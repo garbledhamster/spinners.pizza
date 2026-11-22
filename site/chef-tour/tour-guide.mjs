@@ -135,7 +135,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const shortScreen = matchMedia("(max-height: 500px)");
-  let paused = false;
+  let motionOverride;
   let selection = null;
   let savedTour = null;
   let follow = false;
@@ -155,7 +155,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   let dockFrame = 0;
   let keepSamplingUntil = 0;
   let beamReadyAt = 0;
-  const still = () => paused || reduced.matches;
+  const still = () => motionOverride ?? reduced.matches;
   const performer = character.performance && createChefPerformance({
     root, avatar, pose, tornado, config: character.performance, still,
   });
@@ -455,12 +455,14 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
         },
       },
       {
-        id: "motion", label: paused && !reduced.matches ? "Resume motion" : "Pause motion",
-        status: reduced.matches ? "Device setting" : paused ? "On" : "Off",
-        disabled: reduced.matches,
+        id: "motion",
+        label: reduced.matches
+          ? still() ? "Play motion" : "Use device setting"
+          : still() ? "Resume motion" : "Pause motion",
+        status: reduced.matches ? still() ? "Device setting" : "Motion on" : undefined,
         run: () => {
-          if (reduced.matches) return;
-          paused = !paused;
+          const pause = !still();
+          motionOverride = pause === reduced.matches ? undefined : pause;
           syncMotion();
         },
       },
@@ -818,7 +820,10 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     else if (!performer?.traveling && !performer?.coasting) performer?.park();
   }
 
-  reduced.addEventListener("change", syncMotion);
+  reduced.addEventListener("change", () => {
+    if (motionOverride === false) motionOverride = undefined;
+    syncMotion();
+  });
   syncMotion();
 
   document.addEventListener("keydown", event => {

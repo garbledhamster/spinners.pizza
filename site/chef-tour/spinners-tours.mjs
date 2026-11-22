@@ -1,4 +1,4 @@
-import { mountGuide } from "./tour-guide.mjs";
+import { mountGuide } from "./tour-guide.mjs?v=2";
 import { chefPerformance } from "./spinners-chef-art.mjs";
 import { spinnersMenu, spinnersDocks, menuTourStops } from "./spinners-menu.mjs";
 

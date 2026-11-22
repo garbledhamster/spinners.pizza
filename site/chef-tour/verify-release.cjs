@@ -12,6 +12,53 @@ async function open(page, ...labels) {
   for (const name of labels) await picker.getByRole("button", { name, exact: true }).click();
 }
 
+async function verifyGuideMotionOptIn(page) {
+  const funnel = page.locator(".cg-funnel-frame");
+  const animationName = locator => locator.evaluate(element => getComputedStyle(element).animationName);
+  const picker = page.locator(".cg-picker");
+  assert.equal(await animationName(funnel), "none");
+
+  await open(page, "Guide settings");
+  const play = picker.getByRole("button", { name: "Play motion", exact: true });
+  assert.equal(await play.count(), 1, "Reduced-motion visitors need an explicit Play motion action");
+  await play.press("Enter");
+  const restore = picker.getByRole("button", { name: "Use device setting", exact: true });
+  assert(await restore.evaluate(element => element === document.activeElement));
+  assert.equal(await animationName(funnel), "cg-tornado-spin");
+  assert.equal(await animationName(page.locator("#medallion")), "none", "Guide opt-in must not animate the emblem");
+
+  await picker.getByRole("button", { name: "Back", exact: true }).click();
+  for (const name of ["Menu & desserts", "Full menu"]) {
+    await picker.getByRole("button", { name, exact: true }).click();
+  }
+  await page.locator(".cg-avatar[data-travel]").waitFor({ state: "attached" });
+  const frames = await page.evaluate(() => new Promise(resolve => {
+    const avatar = document.querySelector(".cg-avatar");
+    const funnel = avatar.querySelector(".cg-funnel-frame");
+    const poses = new Set();
+    const tornado = new Set();
+    const positions = new Set();
+    const until = performance.now() + 430;
+    function sample(now) {
+      poses.add(avatar.dataset.frame);
+      tornado.add(getComputedStyle(funnel).backgroundPosition);
+      positions.add(avatar.getBoundingClientRect().y);
+      if (now < until) requestAnimationFrame(sample);
+      else resolve([poses.size, tornado.size, positions.size]);
+    }
+    requestAnimationFrame(sample);
+  }));
+  assert(frames.every(count => count > 1), `Travel should change the chef pose, tornado frame and position: ${frames}`);
+  await page.locator(".cg-laser").waitFor();
+  await page.getByRole("button", { name: "Close guide tip" }).click();
+  await page.locator(".cg-avatar[data-travel]").waitFor({ state: "detached" });
+  await open(page, "Guide settings");
+  await restore.click();
+  assert(await play.isEnabled());
+  assert.equal(await animationName(funnel), "none");
+  console.log("With reduced motion set, guide playback can be enabled by keyboard and reset independently of the emblem.");
+}
+
 async function assessHits(locator) {
   return locator.evaluateAll(elements => elements.map(el => {
     const rect = el.getBoundingClientRect();
@@ -62,6 +109,11 @@ async function assessHits(locator) {
     await phone.keyboard.press("Escape");
     assert(!await phone.locator(".cg-step").isVisible());
     console.log("WebKit phone: Desserts tap area clear. Native date input focused. Escape closes from the input.");
+    const reducedPhone = await safariEngine.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+    await reducedPhone.goto(production, { waitUntil: "domcontentloaded" });
+    await reducedPhone.locator('.chef-guide[data-tornado="ready"][data-performer="ready"]').waitFor({ state: "attached" });
+    await verifyGuideMotionOptIn(reducedPhone);
+
   } finally { await safariEngine.close(); }
 
   const browser = await chromium.launch({ executablePath: chrome });
@@ -82,6 +134,10 @@ async function assessHits(locator) {
     assert(await page.getByRole("link",{name:"Call to check"}).isVisible());
     assert.equal(await page.locator("#date-result").getAttribute("data-state"),"unknown");
     console.log("Public build: chef starts on index, matching dessert details, native date and phone fallback.");
+    await page.keyboard.press("Escape");
+    await page.locator('.chef-guide[data-tornado="ready"]').waitFor({ state: "attached" });
+    await verifyGuideMotionOptIn(page);
+
 
     const recovery = await browser.newPage({viewport:{width:390,height:844}});
     await recovery.route(/chef-flight\.(?:png|webp)|tornado-spin\.webp/, route => route.abort());

@@ -4,7 +4,7 @@ const { resolve } = require("node:path");
 const root = resolve(__dirname, "../..");
 const input = readFileSync(resolve(root, "index.html"), "utf8");
 
-if (!input.includes('src="site/chef-tour/spinners-tours.mjs"')) {
+if (!/src="site\/chef-tour\/spinners-tours\.mjs(?:\?[^"]+)?"/.test(input)) {
   throw new Error("Build the integrated Counter Ticket site first");
 }
 

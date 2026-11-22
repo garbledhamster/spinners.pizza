@@ -356,10 +356,6 @@
 @media (min-width: 720px) {
   .chef-guide { --cg-avatar-width: min(clamp(108px, calc(30vw - 108px), 235px), max(96px, 31dvh)); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .chef-guide .cg-avatar, .chef-guide .cg-sprite { transition: none; }
-  .chef-guide .cg-tornado, .chef-guide .cg-card { animation: none; }
-}
 
 .cg-performance, .cg-peel-emitter { position: absolute; pointer-events: none; }
 .cg-performance {
@@ -447,10 +443,6 @@
 }
 .cg-still :is(.cg-funnel, .cg-funnel-rim) { transition: none; }
 .cg-still :is(.cg-funnel-frame, .cg-rim-frame) { animation: none; }
-@media (prefers-reduced-motion: reduce) {
-  .chef-guide :is(.cg-funnel, .cg-funnel-rim) { transition: none; }
-  .chef-guide :is(.cg-funnel-frame, .cg-rim-frame) { animation: none; }
-}
 .cg-avatar[data-standby] .cg-rider-plane { animation: cg-balance 4.1s ease-in-out infinite; }
 @keyframes cg-balance {
   0%, 50%, 100% { transform: rotate(0deg); }
@@ -458,6 +450,3 @@
   75% { transform: rotate(4deg); }
 }
 .cg-still .cg-avatar[data-standby] .cg-rider-plane { animation: none; }
-@media (prefers-reduced-motion: reduce) {
-  .cg-avatar[data-standby] .cg-rider-plane { animation: none; }
-}
