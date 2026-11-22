@@ -1,6 +1,6 @@
 # Spinners chef guide
 
-Open [Spinners Pizza](https://spinners.pizza/) and tap **Ask the chef** or **Guide** for menu and dessert shortcuts, visit information, the family story and photos, and four guided tours. Pick a destination to watch him land and point. Use Back and Next during a tour, or Resume tour after taking a detour. Use the stationary **Settings** button at the bottom left to follow sections as you scroll, pause or resume motion, reposition the chef, or hide and show him. Drag him by his artwork, or press Alt + an arrow key while focused. Escape closes the picker or the active guide card.
+Open [Spinners Pizza](https://spinners.pizza/) and tap **Ask the chef** or **Guide** for menu and dessert shortcuts, visit information, the family story and photos, and four guided tours. Pick a destination to watch him land and point. Use Back and Next during a tour, or Resume tour after taking a detour. The illustrated settings sit under the speech bubble’s title. Follow and Motion start on. When the chef arrives at a section, select his invitation to open its presentation. The settings let you pause motion, turn off Follow, reposition the chef, or hide and show him. Drag him by his artwork, or press Alt + an arrow key while focused. Escape closes the picker or the active guide card.
 
 The page supplies the destinations and narration as static data. Shortcuts use the real page controls, including the hours panel, maps and phone links, and gallery dialog. Visitors can use the guide or navigate directly through the site’s links.
 

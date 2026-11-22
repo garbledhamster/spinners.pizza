@@ -168,13 +168,19 @@ export const spinnersMenu = [
 ];
 
 export const spinnersDocks = [
-  ["#home", "#title", "Welcome to Spinners."],
-  ["#hours", "#hours-title", "Check your visit date here."],
-  ["#menu", menuTitle, "Let me show you my menu."],
-  ["#scoops", "#scoop-title", "See the dessert information here."],
-  ["#discounts", "#discount-title", "See Spinners’ service discounts."],
-  ["#story", "#story-title", "Meet the family behind Spinners."],
-  ["#gallery", "#gallery-title", "Take a look inside."],
-  ["#reviews", "#reviews-title", "See what visitors have shared."],
-  ["#visit", "#visit-title", "Find directions and carry-out here."],
+  { section: "#home", heading: "#title", invitation: "Take a quick tour with me", tour: "site" },
+  { section: "#hours", heading: "#hours-title", invitation: "Let me show you the hours",
+    step: visitHours("Check a visit date", "#visit-date", "Pick a date to check the posted hours for your visit.").step },
+  { section: "#menu", heading: menuTitle, invitation: "Let me show you my menu", tour: "menu" },
+  { section: "#scoops", heading: "#scoop-title", invitation: "Come see the scoop counter", step: dessertStop.step },
+  { section: "#discounts", heading: "#discount-title", invitation: "See our service discounts",
+    step: shortcut("Discounts for our heroes", "#discount-title", "Here’s what Spinners says about its service discounts.").step },
+  { section: "#story", heading: "#story-title", invitation: "Meet the family behind Spinners", tour: "family" },
+  { section: "#gallery", heading: "#gallery-title", invitation: "Let me show you around", tour: "restaurant" },
+  { section: "#reviews", heading: "#reviews-title", invitation: "See what visitors are saying",
+    step: shortcut("Customer reviews", "#reviews-title", "See what people have shared about their visits.").step },
+  { section: "#visit", heading: "#visit-title", invitation: "Let me show you where to go",
+    step: shortcut("Find Spinners", "#visit .locator-copy h3", "Here’s the location. Use directions when you’re ready to head over.", {
+      action: { label: "Open in Maps", link: mapLink },
+    }).step },
 ];

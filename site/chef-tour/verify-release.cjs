@@ -54,9 +54,11 @@ async function verifyGuideAutoplay(page) {
   });
   assert(loops.iterations.every(count => count >= 2) && loops.samples.every(count => count > 15), JSON.stringify(loops));
 
-  const settings = page.getByRole("button", { name: "Guide settings", exact: true });
-  await settings.click();
-  const motion = page.getByRole("button", { name: "Guide motion", exact: true });
+  await open(page);
+  const settings = picker.getByRole("group", { name: "Guide settings", exact: true });
+  assert(await settings.evaluate(el => el.parentElement.previousElementSibling.matches(".cg-card-head")));
+  assert.equal(await settings.getByRole("button", { name: "Follow me" }).getAttribute("aria-pressed"), "true");
+  const motion = settings.getByRole("button", { name: "Guide motion", exact: true });
   await motion.press("Enter");
   assert.equal(await motion.getAttribute("aria-pressed"), "false");
   assert(await motion.evaluate(element => element === document.activeElement));
@@ -66,8 +68,8 @@ async function verifyGuideAutoplay(page) {
   await motion.press("Enter");
   assert.equal(await motion.getAttribute("aria-pressed"), "true");
   await page.keyboard.press("Escape");
-  assert(await settings.evaluate(element => element === document.activeElement));
-  const dock = await settings.boundingBox();
+  assert(await page.getByRole("button", { name: "Ask the Spinners chef" })
+    .evaluate(element => element === document.activeElement));
   await open(page, "Menu & desserts");
   const launcher = await page.getByRole("button", { name: "Ask the Spinners chef" }).boundingBox();
   const before = await picker.boundingBox();
@@ -82,7 +84,7 @@ async function verifyGuideAutoplay(page) {
   const after = await picker.boundingBox();
   assert(await picker.getByRole("heading", { name: "Menu & desserts", exact: true }).isVisible(),
     "Dragging the chef should keep the same submenu open");
-  assert.deepEqual(await settings.boundingBox(), dock, "The settings button must stay fixed when the chef moves");
+  assert(await settings.isVisible(), "The controls stay inside the moving speech bubble");
   assert(after && Math.hypot(after.x - before.x, after.y - before.y) > 25, "The speech bubble should move with the chef");
   assert(await picker.getAttribute("data-tail"), "The speech bubble should point back to the chef");
   assert(after.x >= 0 && after.y >= 0 && after.x + after.width <= screen.width && after.y + after.height <= screen.height);

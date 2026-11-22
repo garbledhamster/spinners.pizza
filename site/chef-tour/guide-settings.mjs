@@ -10,18 +10,9 @@ const corners = [
   ["bottom right", "Bottom right"],
 ];
 
-export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotion, move, toggleChef }) {
+export function mountGuideSettings({ host, layout, toggleFollow, toggleMotion, move, toggleChef }) {
   host.innerHTML = `
-    <button type="button" class="cg-settings-trigger" aria-label="Guide settings"
-      aria-controls="chef-guide-settings" aria-expanded="false">
-      ${icon("settings")}<span>Settings</span>
-    </button>
-    <section class="cg-settings-panel" id="chef-guide-settings" aria-labelledby="chef-guide-settings-title" hidden>
-      <header>
-        <h2 id="chef-guide-settings-title">Guide settings</h2>
-        <button type="button" class="cg-settings-close" aria-label="Close guide settings">Close</button>
-      </header>
-      <div class="cg-settings-row">
+      <div class="cg-settings-row" role="group" aria-label="Guide settings">
         ${button("follow", "Follow me", "Follow")}
         ${button("motion", "Guide motion", "Motion")}
         ${button("move", "Move chef", "Move")}
@@ -32,10 +23,7 @@ export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotio
         ${corners.map(([value, label]) =>
           `<button type="button" data-corner="${value}">${label}</button>`).join("")}
       </div>
-    </section>
   `;
-  const trigger = host.querySelector(".cg-settings-trigger");
-  const panel = host.querySelector(".cg-settings-panel");
   const positions = host.querySelector(".cg-corners");
   const setting = name => host.querySelector(`[data-setting="${name}"]`);
   const follow = setting("follow");
@@ -48,18 +36,7 @@ export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotio
   function setPositions(open) {
     positions.hidden = !open;
     place.setAttribute("aria-expanded", String(open));
-  }
-
-  function setOpen(open, restoreFocus = false) {
-    panel.hidden = !open;
-    trigger.setAttribute("aria-expanded", String(open));
-    if (open) {
-      closeGuide();
-      follow.focus({ preventScroll: true });
-    } else {
-      setPositions(false);
-      if (restoreFocus) trigger.focus({ preventScroll: true });
-    }
+    layout();
   }
 
   function sync({ following, playing, chefHidden, corner }) {
@@ -78,8 +55,6 @@ export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotio
     }
   }
 
-  trigger.addEventListener("click", () => setOpen(panel.hidden, true));
-  host.querySelector(".cg-settings-close").addEventListener("click", () => setOpen(false, true));
   follow.addEventListener("click", toggleFollow);
   motion.addEventListener("click", toggleMotion);
   place.addEventListener("click", () => {
@@ -101,19 +76,11 @@ export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotio
     place.focus({ preventScroll: true });
   });
   host.addEventListener("keydown", event => {
-    if (event.key !== "Escape" || panel.hidden) return;
+    if (event.key !== "Escape" || positions.hidden || !positions.contains(event.target)) return;
     event.preventDefault();
-    if (!positions.hidden && positions.contains(event.target)) {
-      setPositions(false);
-      place.focus({ preventScroll: true });
-    } else setOpen(false, true);
+    setPositions(false);
+    place.focus({ preventScroll: true });
   });
-  function dismissOutside(event) {
-    if (!panel.hidden && !host.contains(event.target)) setOpen(false);
-  }
-
-  document.addEventListener("pointerdown", dismissOutside);
-  document.addEventListener("focusin", dismissOutside);
   setPositions(false);
-  return { sync, close: () => setOpen(false), isOpen: () => !panel.hidden };
+  return { sync, closePositions: () => setPositions(false), focusVisibility: () => hide.focus({ preventScroll: true }) };
 }

@@ -230,10 +230,8 @@ async function checkScreen(name, engine, viewport) {
       assert(settled.x < released.x - 30, "A quick flick continues in the release direction.");
       await page.waitForFunction(() => !document.querySelector(".cg-dust:not([hidden])"));
     }
-    await page.getByRole("button", { name: "Guide settings", exact: true }).click();
-    await page.getByRole("button", { name: "Guide motion", exact: true }).click();
-    await page.getByRole("button", { name: "Close guide settings", exact: true }).click();
     await launch.click();
+    await picker.getByRole("button", { name: "Guide motion", exact: true }).click();
     await picker.getByRole("button", { name: "Guided tours", exact: true }).click();
     await picker.getByRole("button", { name: "Menu tour", exact: true }).click();
     assert.equal(await page.locator(".cg-avatar").evaluate(el => getComputedStyle(el).transitionDuration), "0s");
