@@ -82,7 +82,7 @@
   animation: cg-swirl 1.15s ease-in-out infinite;
 }
 .cg-avatar[data-side="-1"] .cg-tornado { left: 51%; }
-.cg-still .cg-tornado, .cg-dragging .cg-tornado { animation: none; }
+.cg-still .cg-tornado { animation-play-state: paused; }
 @keyframes cg-swirl {
   0%, 100% { transform: scaleX(.83) skewX(-6deg); }
   48% { transform: scaleX(1) skewX(6deg); }
@@ -154,7 +154,36 @@
   box-shadow: 0 9px 26px #3620162d, 0 2px 7px #36201614;
 }
 
-.cg-picker { animation: cg-unfold 210ms cubic-bezier(.2, .8, .25, 1) both; }
+.cg-picker {
+  width: var(--cg-picker-width, 312px);
+  max-height: var(--cg-picker-room, calc(100dvh - 20px));
+  overflow: visible;
+  border-radius: 16px;
+  animation: cg-unfold 210ms cubic-bezier(.2, .8, .25, 1) both;
+}
+.cg-picker-body {
+  max-height: max(0px, calc(var(--cg-picker-room, 100dvh - 20px) - 2px));
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: inherit;
+  background: var(--cg-paper);
+}
+.cg-picker::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  rotate: 45deg;
+  border: 1px solid var(--cg-edge);
+  background: var(--cg-paper);
+  pointer-events: none;
+}
+.cg-picker[data-tail="left"]::before { left: -8px; top: var(--cg-tail-offset); translate: 0 -50%; }
+.cg-picker[data-tail="right"]::before { right: -8px; top: var(--cg-tail-offset); translate: 0 -50%; }
+.cg-picker[data-tail="top"]::before { top: -8px; left: var(--cg-tail-offset); translate: -50% 0; }
+.cg-picker[data-tail="bottom"]::before { bottom: -8px; left: var(--cg-tail-offset); translate: -50% 0; }
+
 .cg-card-head {
   display: flex;
   align-items: center;
@@ -165,6 +194,14 @@
   color: #fff9ef;
   background: var(--cg-red);
 }
+
+.cg-picker .cg-card-head {
+  background: var(--cg-paper);
+  color: var(--cg-red);
+  border-bottom: 1px solid var(--cg-edge);
+}
+.cg-picker .cg-card-head button:hover { background: #7f211b12; }
+.cg-picker .cg-card-head button:focus-visible { outline-color: #245970; }
 
 .cg-card-head h2 {
   flex: 1;
@@ -367,8 +404,11 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  --cg-balance-angle: 3deg;
+  --cg-balance-rise: 1.018;
   transform: rotate(var(--cg-rider-lean, 0deg));
   transform-origin: 50% var(--cg-waist-y);
+  animation: cg-balance 2.8s ease-in-out infinite;
 }
 .cg-body-layer { z-index: 0; }
 .cg-prop-layer { z-index: 2; }
@@ -442,11 +482,13 @@
   to { background-position-x: 100%; }
 }
 .cg-still :is(.cg-funnel, .cg-funnel-rim) { transition: none; }
-.cg-still :is(.cg-funnel-frame, .cg-rim-frame) { animation: none; }
-.cg-avatar[data-standby] .cg-rider-plane { animation: cg-balance 4.1s ease-in-out infinite; }
-@keyframes cg-balance {
-  0%, 50%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-4deg); }
-  75% { transform: rotate(4deg); }
+/* Hold the pointer steady without restarting the rider's balance loop. */
+.cg-avatar[data-pointing] .cg-rider-plane {
+  --cg-balance-angle: 0deg;
+  --cg-balance-rise: 1;
 }
-.cg-still .cg-avatar[data-standby] .cg-rider-plane { animation: none; }
+@keyframes cg-balance {
+  0%, 100% { rotate: calc(-1 * var(--cg-balance-angle)); scale: 1 1; }
+  50% { rotate: var(--cg-balance-angle); scale: 1 var(--cg-balance-rise); }
+}
+.cg-still :is(.cg-rider-plane, .cg-funnel-frame, .cg-rim-frame) { animation-play-state: paused; }

@@ -221,13 +221,15 @@ async function checkScreen(name, engine, viewport) {
       assert(settled.x < released.x - 30, "A quick flick continues in the release direction.");
       await page.waitForFunction(() => !document.querySelector(".cg-dust:not([hidden])"));
     }
-    await page.emulateMedia({ reducedMotion: "reduce" });
     await launch.click();
+    await picker.getByRole("button", { name: "Guide settings", exact: true }).click();
+    await picker.getByRole("button", { name: "Pause motion", exact: true }).click();
+    await picker.getByRole("button", { name: "Back", exact: true }).click();
     await picker.getByRole("button", { name: "Guided tours", exact: true }).click();
     await picker.getByRole("button", { name: "Menu tour", exact: true }).click();
     assert.equal(await page.locator(".cg-avatar").evaluate(el => getComputedStyle(el).transitionDuration), "0s");
-    assert.equal(await funnel.evaluate(el => getComputedStyle(el).animationName), "none");
-    assert.equal(await page.locator(".cg-performance").evaluate(el => getComputedStyle(el).animationName), "none");
+    assert.equal(await funnel.evaluate(el => getComputedStyle(el).animationPlayState), "paused");
+    assert.equal(await page.locator(".cg-body-layer").evaluate(el => getComputedStyle(el).animationPlayState), "paused");
     assert.equal(await page.locator(".cg-dust:not([hidden])").count(), 0);
     if (name === "desktop") {
       await page.setViewportSize({ width: 900, height: 700 });
@@ -239,7 +241,7 @@ async function checkScreen(name, engine, viewport) {
       assert(avatar.x + avatar.width < control.x, "The wider chef should leave the emblem control clear.");
     }
     assert.deepEqual(errors, []);
-    console.log(`${name} ${browser.version()}: 14 stops, shared waist pivot, clear caption, coordinated scroll and lean, beam alignment, Back, Finish, Escape, drag, reduced motion.`);
+    console.log(`${name} ${browser.version()}: 14 stops, shared waist pivot, clear caption, coordinated scroll and lean, beam alignment, Back, Finish, Escape, drag and manual pause.`);
   } finally {
     await browser.close();
   }

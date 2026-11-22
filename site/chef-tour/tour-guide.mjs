@@ -1,5 +1,5 @@
-import { createChefPerformance } from "./chef-performance.mjs";
-import { createGuidePicker } from "./guide-picker.mjs";
+import { createChefPerformance } from "./chef-performance.mjs?v=3";
+import { createGuidePicker } from "./guide-picker.mjs?v=3";
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(value, Math.max(minimum, maximum)));
 const degrees = Math.PI / 180;
@@ -66,15 +66,17 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       <p class="cg-follow-note" aria-hidden="true" hidden></p>
     </div>
     <section class="cg-card cg-picker" id="chef-tour-picker" aria-labelledby="chef-tour-heading" hidden>
-      <header class="cg-card-head">
-        <button type="button" class="cg-picker-back" aria-label="Back" hidden>‹</button>
-        <h2 id="chef-tour-heading">What can I show you?</h2>
-        <button type="button" class="cg-close-picker" aria-label="Close guide menu">×</button>
-      </header>
-      <p class="cg-picker-copy" hidden></p>
-      <p class="cg-picker-error" hidden></p>
-      <div class="cg-choices"></div>
-      <footer class="cg-picker-foot" hidden></footer>
+      <div class="cg-picker-body">
+        <header class="cg-card-head">
+          <button type="button" class="cg-picker-back" aria-label="Back" hidden>‹</button>
+          <h2 id="chef-tour-heading">What can I show you?</h2>
+          <button type="button" class="cg-close-picker" aria-label="Close guide menu">×</button>
+        </header>
+        <p class="cg-picker-copy" hidden></p>
+        <p class="cg-picker-error" hidden></p>
+        <div class="cg-choices"></div>
+        <footer class="cg-picker-foot" hidden></footer>
+      </div>
     </section>
     <section class="cg-card cg-step" aria-labelledby="chef-step-title" hidden>
       <header class="cg-card-head">
@@ -133,9 +135,8 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   [emitter.style.left, emitter.style.top] = character.emitter.map(n => `${n * 100}%`);
   document.body.append(root);
 
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const shortScreen = matchMedia("(max-height: 500px)");
-  let motionOverride;
+  let paused = false;
   let selection = null;
   let savedTour = null;
   let follow = false;
@@ -155,7 +156,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   let dockFrame = 0;
   let keepSamplingUntil = 0;
   let beamReadyAt = 0;
-  const still = () => motionOverride ?? reduced.matches;
+  const still = () => paused;
   const performer = character.performance && createChefPerformance({
     root, avatar, pose, tornado, config: character.performance, still,
   });
@@ -172,6 +173,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     position = withinViewport(x, y);
     avatar.style.setProperty("--cg-x", `${position.x}px`);
     avatar.style.setProperty("--cg-y", `${position.y}px`);
+    if (!picker.hidden) placePicker();
     return position;
   }
 
@@ -365,7 +367,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
 
   function applyDock(dock) {
     const { x, y } = dockPosition(dock);
-    moveTo(x, y);
     if (dock.left === undefined) {
       showFullChef();
     } else {
@@ -373,6 +374,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       avatar.style.setProperty("--cg-guide-x", `${dock.left - x}px`);
       avatar.style.setProperty("--cg-guide-y", `${dock.top - y}px`);
     }
+    moveTo(x, y);
   }
 
   function queueIdleDock() {
@@ -382,7 +384,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       if (selection || drag || performer?.traveling || performer?.coasting ||
           (!hidden && (manuallyPlaced || parkedCorner))) return;
       applyDock(idleDock(viewport(), avatar.offsetWidth, avatar.offsetHeight));
-      if (!picker.hidden) placePicker();
     });
   }
 
@@ -422,11 +423,45 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
 
   function placePicker() {
     const screen = viewport();
-    const box = (avatar.hasAttribute("data-compact") ? launch : avatar).getBoundingClientRect();
-    const left = clamp(box.right - picker.offsetWidth, 10, screen.width - picker.offsetWidth - 10);
-    const above = box.top - picker.offsetHeight - 12;
-    const top = clamp(above >= 10 ? above : box.bottom + 12, 10, screen.height - picker.offsetHeight - 10);
-    picker.style.inset = `${top}px auto auto ${left}px`;
+    const margin = 10;
+    const gap = 13;
+    const preferredWidth = Math.min(312, screen.width - 2 * margin);
+    const compact = avatar.hasAttribute("data-compact");
+    const box = (compact ? launch : avatar).getBoundingClientRect();
+    const voiceX = (box.left + box.right) / 2;
+    const voiceY = box.top + box.height * (compact ? .5 : .26);
+    const leftRoom = box.left - margin - gap;
+    const rightRoom = screen.width - box.right - margin - gap;
+    const aboveRoom = box.top - margin - gap;
+    const belowRoom = screen.height - box.bottom - margin - gap;
+    const sideRoom = Math.max(leftRoom, rightRoom);
+    const verticalRoom = Math.max(aboveRoom, belowRoom);
+    const beside = sideRoom >= preferredWidth || (verticalRoom < 156 && sideRoom >= 172);
+    const width = beside ? Math.min(preferredWidth, sideRoom) : preferredWidth;
+    const room = beside ? screen.height - 2 * margin : verticalRoom;
+    picker.style.setProperty("--cg-picker-width", `${width}px`);
+    picker.style.setProperty("--cg-picker-room", `${Math.max(0, room)}px`);
+    const height = picker.offsetHeight;
+
+    let left, top, tail, offset;
+    if (beside) {
+      const onLeft = leftRoom >= width && (rightRoom < width || picker.dataset.tail !== "left");
+      left = onLeft ? box.left - gap - width : box.right + gap;
+      top = clamp(voiceY - height * .22, margin, screen.height - height - margin);
+      tail = onLeft ? "right" : "left";
+      offset = clamp(voiceY - top, 16, height - 16);
+    } else {
+      // Give the current edge a small bias to avoid alternating sides near the midpoint.
+      const edgeBias = picker.dataset.tail === "top" ? 14 : -14;
+      const above = belowRoom < height || (aboveRoom >= height && aboveRoom >= belowRoom + edgeBias);
+      top = above ? box.top - gap - height : box.bottom + gap;
+      left = clamp(voiceX - width / 2, margin, screen.width - width - margin);
+      tail = above ? "bottom" : "top";
+      offset = clamp(voiceX - left, 18, width - 18);
+    }
+    picker.dataset.tail = tail;
+    picker.style.setProperty("--cg-tail-offset", `${offset}px`);
+    picker.style.inset = `${clamp(top, margin, screen.height - height - margin)}px auto auto ${left}px`;
   }
 
   const toursMenu = {
@@ -456,13 +491,9 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       },
       {
         id: "motion",
-        label: reduced.matches
-          ? still() ? "Play motion" : "Use device setting"
-          : still() ? "Resume motion" : "Pause motion",
-        status: reduced.matches ? still() ? "Device setting" : "Motion on" : undefined,
+        label: paused ? "Resume motion" : "Pause motion",
         run: () => {
-          const pause = !still();
-          motionOverride = pause === reduced.matches ? undefined : pause;
+          paused = !paused;
           syncMotion();
         },
       },
@@ -548,7 +579,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     followedSection = undefined;
     park();
     if (selection) reaim();
-    placePicker();
   }
 
   function hideChef() {
@@ -820,10 +850,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     else if (!performer?.traveling && !performer?.coasting) performer?.park();
   }
 
-  reduced.addEventListener("change", () => {
-    if (motionOverride === false) motionOverride = undefined;
-    syncMotion();
-  });
   syncMotion();
 
   document.addEventListener("keydown", event => {
@@ -884,7 +910,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       performer?.wake?.begin(position, Math.max(drag.started, at - 32));
       showFullChef();
       root.classList.add("cg-dragging");
-      if (!picker.hidden) openPicker(false);
     }
     moveTo(x, y);
     performer?.dragTo(position, at);
@@ -948,7 +973,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     } else {
       park();
     }
-    if (!picker.hidden) placePicker();
     queueFrame();
   });
   window.addEventListener("wheel", event => {

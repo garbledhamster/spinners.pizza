@@ -1,4 +1,5 @@
 export function createGuidePicker({ picker, home, choose, place }) {
+  const body = picker.querySelector(".cg-picker-body");
   const heading = picker.querySelector("h2");
   const copy = picker.querySelector(".cg-picker-copy");
   const choices = picker.querySelector(".cg-choices");
@@ -37,7 +38,7 @@ export function createGuidePicker({ picker, home, choose, place }) {
     choices.replaceChildren(...entries.map(builder));
     footer.replaceChildren(...(page.footer ?? []).map(builder));
     footer.hidden = !page.footer?.length;
-    picker.scrollTop = 0;
+    body.scrollTop = 0;
     place();
     if (focus) {
       const rows = [...picker.querySelectorAll(".cg-choice")];

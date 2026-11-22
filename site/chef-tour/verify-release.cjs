@@ -12,25 +12,70 @@ async function open(page, ...labels) {
   for (const name of labels) await picker.getByRole("button", { name, exact: true }).click();
 }
 
-async function verifyGuideMotionOptIn(page) {
+async function verifyGuideAutoplay(page) {
   const funnel = page.locator(".cg-funnel-frame");
-  const animationName = locator => locator.evaluate(element => getComputedStyle(element).animationName);
+  const rider = page.locator(".cg-body-layer");
+  const animationState = locator => locator.evaluate(element => getComputedStyle(element).animationPlayState);
   const picker = page.locator(".cg-picker");
-  assert.equal(await animationName(funnel), "none");
+  assert.equal(await funnel.evaluate(element => getComputedStyle(element).animationName),
+    "cg-tornado-spin", "The guide should play when the browser requests reduced motion");
+  assert.equal(await page.locator("#medallion").evaluate(element => getComputedStyle(element).animationName),
+    "none", "Chef autoplay should leave the separate emblem still");
+
+  const loops = await page.evaluate(async () => {
+    const rider = document.querySelector(".cg-body-layer");
+    const funnel = document.querySelector(".cg-funnel-frame");
+    const subjects = [[rider, "cg-balance", "rotate"], [funnel, "cg-tornado-spin", "backgroundPosition"]];
+    const animations = subjects.map(([element, name]) => element.getAnimations().find(animation => animation.animationName === name));
+    await Promise.all(animations.map(animation => animation.ready));
+    const iteration = animation => animation.effect.getComputedTiming().currentIteration;
+    const initial = animations.map(iteration);
+    const samples = [new Set(), new Set()];
+    const until = performance.now() + 7000;
+    window.guideLoopProbe = animations;
+
+    return new Promise(resolve => {
+      function sample(now) {
+        subjects.forEach(([element, , property], index) => samples[index].add(getComputedStyle(element)[property]));
+        const iterations = animations.map((animation, index) => iteration(animation) - initial[index]);
+        if (iterations.every(count => count >= 2) || now > until) {
+          resolve({ iterations, samples: samples.map(values => values.size) });
+        } else requestAnimationFrame(sample);
+      }
+      requestAnimationFrame(sample);
+    });
+  });
+  assert(loops.iterations.every(count => count >= 2) && loops.samples.every(count => count > 15), JSON.stringify(loops));
 
   await open(page, "Guide settings");
-  const play = picker.getByRole("button", { name: "Play motion", exact: true });
-  assert.equal(await play.count(), 1, "Reduced-motion visitors need an explicit Play motion action");
-  await play.press("Enter");
-  const restore = picker.getByRole("button", { name: "Use device setting", exact: true });
-  assert(await restore.evaluate(element => element === document.activeElement));
-  assert.equal(await animationName(funnel), "cg-tornado-spin");
-  assert.equal(await animationName(page.locator("#medallion")), "none", "Guide opt-in must not animate the emblem");
+  const pause = picker.getByRole("button", { name: "Pause motion", exact: true });
+  await pause.press("Enter");
+  const resume = picker.getByRole("button", { name: "Resume motion", exact: true });
+  assert(await resume.evaluate(element => element === document.activeElement));
+  assert.equal(await animationState(funnel), "paused");
+  assert.equal(await animationState(rider), "paused");
+  await resume.press("Enter");
+  const launcher = await page.getByRole("button", { name: "Ask the Spinners chef" }).boundingBox();
+  const before = await picker.boundingBox();
+  const screen = page.viewportSize();
+  const x = launcher.x + launcher.width / 2;
+  const y = launcher.y + Math.min(50, launcher.height / 3);
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x + (x < screen.width / 2 ? 1 : -1) * screen.width * .36, y - 80, { steps: 8 });
+  await page.mouse.up();
+  await page.locator(".cg-avatar[data-coast]").waitFor({ state: "detached" });
+  const after = await picker.boundingBox();
+  assert(await pause.isVisible(), "Dragging the chef should keep the same submenu open");
+  assert(after && Math.hypot(after.x - before.x, after.y - before.y) > 25, "The speech bubble should move with the chef");
+  assert(await picker.getAttribute("data-tail"), "The speech bubble should point back to the chef");
+  assert(after.x >= 0 && after.y >= 0 && after.x + after.width <= screen.width && after.y + after.height <= screen.height);
+  await picker.getByRole("button", { name: "Close guide menu" }).click();
+  assert(await page.evaluate(() => window.guideLoopProbe.every(animation =>
+    animation.playState === "running" && animation.effect.getComputedTiming().currentIteration >= 2
+  )), "Pause, resume and closing the picker should preserve both animation playheads");
 
-  await picker.getByRole("button", { name: "Back", exact: true }).click();
-  for (const name of ["Menu & desserts", "Full menu"]) {
-    await picker.getByRole("button", { name, exact: true }).click();
-  }
+  await open(page, "Menu & desserts", "Full menu");
   await page.locator(".cg-avatar[data-travel]").waitFor({ state: "attached" });
   const frames = await page.evaluate(() => new Promise(resolve => {
     const avatar = document.querySelector(".cg-avatar");
@@ -52,11 +97,10 @@ async function verifyGuideMotionOptIn(page) {
   await page.locator(".cg-laser").waitFor();
   await page.getByRole("button", { name: "Close guide tip" }).click();
   await page.locator(".cg-avatar[data-travel]").waitFor({ state: "detached" });
-  await open(page, "Guide settings");
-  await restore.click();
-  assert(await play.isEnabled());
-  assert.equal(await animationName(funnel), "none");
-  console.log("With reduced motion set, guide playback can be enabled by keyboard and reset independently of the emblem.");
+  assert(await page.evaluate(() => window.guideLoopProbe.every(animation =>
+    animation.playState === "running" && animation.effect.getComputedTiming().currentIteration >= 2
+  )), "Returning to the dock should continue the existing loops");
+  console.log("With reduced motion set, the chef and tornado loop by default, pause by keyboard, and resume without restarting.");
 }
 
 async function assessHits(locator) {
@@ -112,7 +156,7 @@ async function assessHits(locator) {
     const reducedPhone = await safariEngine.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
     await reducedPhone.goto(production, { waitUntil: "domcontentloaded" });
     await reducedPhone.locator('.chef-guide[data-tornado="ready"][data-performer="ready"]').waitFor({ state: "attached" });
-    await verifyGuideMotionOptIn(reducedPhone);
+    await verifyGuideAutoplay(reducedPhone);
 
   } finally { await safariEngine.close(); }
 
@@ -134,10 +178,10 @@ async function assessHits(locator) {
     assert(await page.getByRole("link",{name:"Call to check"}).isVisible());
     assert.equal(await page.locator("#date-result").getAttribute("data-state"),"unknown");
     console.log("Public build: chef starts on index, matching dessert details, native date and phone fallback.");
-    await page.keyboard.press("Escape");
-    await page.locator('.chef-guide[data-tornado="ready"]').waitFor({ state: "attached" });
-    await verifyGuideMotionOptIn(page);
-
+    const reducedDesktop = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+    await reducedDesktop.goto(production, { waitUntil: "domcontentloaded" });
+    await reducedDesktop.locator('.chef-guide[data-tornado="ready"][data-performer="ready"]').waitFor({ state: "attached" });
+    await verifyGuideAutoplay(reducedDesktop);
 
     const recovery = await browser.newPage({viewport:{width:390,height:844}});
     await recovery.route(/chef-flight\.(?:png|webp)|tornado-spin\.webp/, route => route.abort());
@@ -163,11 +207,9 @@ async function assessHits(locator) {
     await motion.locator(".cg-avatar[data-travel]").waitFor({state:"attached"});
     await motion.locator(".cg-dust:not([hidden])").first().waitFor();
     await motion.emulateMedia({reducedMotion:"reduce"});
-    await motion.locator(".cg-avatar[data-travel]").waitFor({state:"detached"});
+    assert.equal(await motion.locator(".cg-funnel-frame").evaluate(el => getComputedStyle(el).animationPlayState),"running");
     await motion.locator(".cg-laser").waitFor();
-    assert.equal(await motion.locator(".cg-dust:not([hidden])").count(),0);
-    assert.equal(await motion.locator(".cg-funnel-frame").evaluate(el => getComputedStyle(el).animationName),"none");
-    console.log("Turning on reduced motion during flight stops particles and spin, then settles the pointer.");
+    console.log("Changing device motion during a flight leaves the guide playing and the pointer settles.");
 
     const basic = await browser.newPage({javaScriptEnabled:false,viewport:{width:320,height:640}});
     await basic.goto(preview,{waitUntil:"domcontentloaded"});

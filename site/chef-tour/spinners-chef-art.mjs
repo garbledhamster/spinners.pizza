@@ -6,7 +6,7 @@ export const chefPerformance = {
   images: {
     presentation: { src: art("chef-presentation.webp"), columns: 4, rows: 2 },
     flight: { src: art("chef-flight.webp"), columns: 4, rows: 2 },
-    eyelids: { src: art("chef-blink.webp") },
+    eyelids: { src: art("chef-blink.webp"), optional: true },
     peel: { src: art("laser-peel.webp") },
   },
   tornado: { spin: art("tornado-spin.webp"), dust: art("tornado-dust.webp"), frames: 32 },

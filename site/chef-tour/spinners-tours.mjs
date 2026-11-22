@@ -1,5 +1,5 @@
-import { mountGuide } from "./tour-guide.mjs?v=2";
-import { chefPerformance } from "./spinners-chef-art.mjs";
+import { mountGuide } from "./tour-guide.mjs?v=3";
+import { chefPerformance } from "./spinners-chef-art.mjs?v=3";
 import { spinnersMenu, spinnersDocks, menuTourStops } from "./spinners-menu.mjs";
 
 // Origin and grip are fractions of the image, measured from its top left.

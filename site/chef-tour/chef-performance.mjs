@@ -126,14 +126,18 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     delete avatar.dataset.standby;
   }
 
-  function park(restart = true) {
-    stopIdle();
+  function park() {
     if (!ready) return;
+    if (avatar.hasAttribute("data-standby") && !still() && !document.hidden) {
+      restingProp();
+      return;
+    }
+    stopIdle();
     frame("idle");
     restingProp();
     shot = null;
     sweepReady = false;
-    if (restart && !still() && !document.hidden) {
+    if (!still() && !document.hidden) {
       avatar.dataset.standby = "";
       idleTimer = setTimeout(standby, 3100);
     }
@@ -403,9 +407,13 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     animation = requestAnimationFrame(tick);
   }
 
-  Promise.all(Object.entries(config.images).map(async ([key, value]) => {
-    images[key] = await loadImage(value.src);
-  })).then(() => {
+  const requiredImages = [];
+  for (const [key, asset] of Object.entries(config.images)) {
+    const loaded = loadImage(asset.src).then(image => { images[key] = image; });
+    if (asset.optional) loaded.catch(() => {});
+    else requiredImages.push(loaded);
+  }
+  Promise.all(requiredImages).then(() => {
     hand.style.backgroundImage = `url("${images.peel.src}")`;
     root.dataset.performer = "ready";
     ready = true;
