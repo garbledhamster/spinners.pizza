@@ -25,9 +25,10 @@ test("the tracked GitHub Pages home is the public Counter Ticket build", () => {
   assert.match(html, /25 flavors of Kemps ice cream/);
 });
 
-test("publishes the restaurant's Google map in the visit section", () => {
+test("publishes the restaurant map and Google Maps fallback in the visit section", () => {
   const html = readFileSync(join(root, "index.html"), "utf8");
-  const visit = html.match(/<section id="visit"[\s\S]*?<\/section>/)?.[0];
+  const visit = html.match(/<section id="visit"[\s\S]*?<\/main>/)?.[0];
+  assert.match(visit, /class="visit-map-stage" aria-label="Map centered on Spinners Pizza"/);
   assert.match(visit, /<iframe class="locator-map" title="Spinners Pizza on Google Maps" loading="lazy"/);
   assert.match(visit, /google\.com\/maps\/embed\?pb=[^"]+8bf775b1d6a5af4d/);
   assert.match(visit, /google\.com\/maps\/dir\/\?api=1&amp;destination=9537/);
