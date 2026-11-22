@@ -4,18 +4,20 @@
   }
 
   to {
-    transform: rotateY(1turn);
+    transform: rotateY(-1turn);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  #medallion[data-medallion-state] {
-    animation: medallion-flip 4s linear infinite;
-  }
+.seal {
+  perspective: 440px;
+}
 
-  #medallion[data-medallion-state="paused"] {
-    animation-play-state: paused;
-  }
+#medallion[data-medallion-state] {
+  animation: medallion-flip 4s linear infinite;
+}
+
+#medallion[data-medallion-state="paused"] {
+  animation-play-state: paused;
 }
 
 #motion-control[hidden] {

@@ -20,17 +20,24 @@ async function verifyGuideAutoplay(page) {
   assert.equal(await funnel.evaluate(element => getComputedStyle(element).animationName),
     "cg-tornado-spin", "The guide should play when the browser requests reduced motion");
   assert.equal(await page.locator("#medallion").evaluate(element => getComputedStyle(element).animationName),
-    "none", "Chef autoplay should leave the separate emblem still");
+    "medallion-flip", "The emblem should also turn by default");
 
+  await page.waitForFunction(() => [...document.querySelectorAll(".cg-wrap-frame")]
+    .filter(el => getComputedStyle(el).backgroundImage !== "none").length === 2);
   const loops = await page.evaluate(async () => {
     const rider = document.querySelector(".cg-body-layer");
     const funnel = document.querySelector(".cg-funnel-frame");
-    const subjects = [[rider, "cg-balance", "rotate"], [funnel, "cg-tornado-spin", "backgroundPosition"]];
+    const accents = [...document.querySelectorAll(".cg-wrap-frame")];
+    const subjects = [[rider, "cg-balance", "rotate"], [funnel, "cg-tornado-spin", "backgroundPosition"],
+      ...accents.map(el => [el, "cg-tornado-spin", "backgroundPosition"])];
+    if (accents.length !== 2 || accents.some(el => getComputedStyle(el).backgroundImage === "none")) {
+      throw new Error("Expected both depth passes to load");
+    }
     const animations = subjects.map(([element, name]) => element.getAnimations().find(animation => animation.animationName === name));
     await Promise.all(animations.map(animation => animation.ready));
     const iteration = animation => animation.effect.getComputedTiming().currentIteration;
     const initial = animations.map(iteration);
-    const samples = [new Set(), new Set()];
+    const samples = subjects.map(() => new Set());
     const until = performance.now() + 7000;
     window.guideLoopProbe = animations;
 
@@ -54,6 +61,7 @@ async function verifyGuideAutoplay(page) {
   assert(await resume.evaluate(element => element === document.activeElement));
   assert.equal(await animationState(funnel), "paused");
   assert.equal(await animationState(rider), "paused");
+  for (const arc of await page.locator(".cg-wrap-frame").all()) assert.equal(await animationState(arc), "paused");
   await resume.press("Enter");
   const launcher = await page.getByRole("button", { name: "Ask the Spinners chef" }).boundingBox();
   const before = await picker.boundingBox();

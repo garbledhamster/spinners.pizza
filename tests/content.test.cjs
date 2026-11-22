@@ -44,7 +44,13 @@ test("renders all static destinations, menu groups, and attributed reviews from 
   assert.deepEqual(reviewUrls.map(([, href]) => text(href)), read("reviews.json").map(({ href }) => href));
   assert.match(section(html, "story"), /Stoughton[\s\S]*Grovespring/);
   assert.match(section(html, "discounts"), /service members, police, firefighters, and first responders/);
-  assert.doesNotMatch(html, /assets\/images\/menu\//);
+  assert.deepEqual(groups.map(([, group]) => group.match(/<img src="([^"]+)"/)[1]), source.sections.map(({ photo }) => photo));
+  assert.deepEqual(
+    [...menu.matchAll(/<a href="([^"]+)" data-menu-photo/g)].map(([, href]) => href),
+    source.images.map(src => new URL(src).pathname.slice(1)),
+  );
+  assert.match(menu, /These pages show an older address/);
+  assert.match(section(html, "story"), /assets\/images\/logos\/97\.png/);
 });
 
 test("renders locally resolvable image links and sources with encoded filenames", () => {
@@ -117,6 +123,18 @@ test("Chromium supports no-script menu and image links plus keyboard gallery foc
   await plain.waitForURL(new URL(href, origin).href);
 
   const enhanced = await openPage(true);
+  const printed = enhanced.getByRole("link", { name: "Printed menu page 1" });
+  await printed.press("Enter");
+  const menuDialog = enhanced.getByRole("dialog");
+  assert.match(await menuDialog.getByRole("heading").textContent(), /Printed menu page 1/);
+  await enhanced.keyboard.press("ArrowRight");
+  assert.match(await menuDialog.getByRole("heading").textContent(), /Printed menu page 2/);
+  assert.equal(new URL(await menuDialog.getByRole("link", { name: "Open full size" }).getAttribute("href")).pathname,
+    "/assets/images/menu/menu2.png");
+  await enhanced.keyboard.press("Escape");
+  await menuDialog.waitFor({ state: "hidden" });
+  assert(await printed.evaluate(link => link === document.activeElement));
+
   const trigger = enhanced.locator("[data-gallery]").nth(1);
   const description = await trigger.locator("img").getAttribute("alt");
   await trigger.press("Enter");

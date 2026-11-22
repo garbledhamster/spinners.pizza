@@ -1,5 +1,5 @@
-import { createChefPerformance } from "./chef-performance.mjs?v=3";
-import { createGuidePicker } from "./guide-picker.mjs?v=3";
+import { createChefPerformance } from "./chef-performance.mjs?v=4";
+import { createGuidePicker } from "./guide-picker.mjs?v=4";
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(value, Math.max(minimum, maximum)));
 const degrees = Math.PI / 180;

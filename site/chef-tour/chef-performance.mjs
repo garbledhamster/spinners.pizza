@@ -1,4 +1,4 @@
-import { createTornadoMotion } from "./tornado-motion.mjs";
+import { createTornadoMotion } from "./tornado-motion.mjs?v=4";
 
 const radians = Math.PI / 180;
 const spriteScale = .86;

@@ -27,12 +27,6 @@ if (preview) {
 }
 html = insert(html, "<!-- COUNTER_TICKET_HOURS -->", renderHours({ root }));
 html = insert(html, "<!-- COUNTER_TICKET_CONTENT -->", renderContent({ root }));
-html = insert(html, "<!-- COUNTER_TICKET_LOCATOR_ART -->", [
-  '<figure class="locator-art">',
-  '  <img src="assets/images/counter-ticket/illustrations/ozarks.webp" width="648" height="492" alt="Illustrated road through the Ozarks hills" loading="lazy" decoding="async">',
-  '  <figcaption>Ozarks illustration</figcaption>',
-  '</figure>',
-].join("\n"));
 if (check) {
   assert.equal(read("index.html"), html, "Regenerate index.html with the same build flags.");
 } else {

@@ -9,7 +9,10 @@ export const chefPerformance = {
     eyelids: { src: art("chef-blink.webp"), optional: true },
     peel: { src: art("laser-peel.webp") },
   },
-  tornado: { spin: art("tornado-spin.webp"), dust: art("tornado-dust.webp"), frames: 32 },
+  tornado: {
+    spin: art("tornado-spin.webp"), dust: art("tornado-dust.webp"), frames: 32,
+    wrap: { rear: art("tornado-wrap-rear.webp"), near: art("tornado-wrap-near.webp"), frames: 48 },
+  },
   // The waist is a fraction of the avatar width, matching the tornado's pivot.
   waistY: .75,
   // Grip and lens are fractions of the transparent peel image.

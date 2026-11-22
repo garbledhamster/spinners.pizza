@@ -446,8 +446,8 @@
   background-size: var(--cg-dust-size, 100% 100%);
   background-repeat: no-repeat;
 }
-/* The same spinning art sits behind the chef and curls in front at his waist. */
-.cg-funnel, .cg-funnel-rim {
+/* Both depths of the wind share the funnel pivot and playback clock. */
+.cg-funnel, .cg-funnel-rim, .cg-funnel-front {
   display: none;
   position: absolute;
   width: 48%;
@@ -459,29 +459,31 @@
   transform: translate(-50%, -9%) rotate(var(--cg-funnel-bank, 0deg)) scaleY(var(--cg-funnel-stretch, 1));
   transition: transform 130ms ease-out;
 }
+.cg-funnel-rim, .cg-funnel-front { z-index: 1; }
 .cg-funnel-rim {
-  z-index: 1;
   mask-image: linear-gradient(transparent 4%, black 10% 17%, transparent 28%);
 }
-.cg-dragging :is(.cg-funnel, .cg-funnel-rim),
-.cg-avatar:is([data-travel], [data-coast]) :is(.cg-funnel, .cg-funnel-rim) { transition: none; }
-.chef-guide[data-performer="ready"][data-tornado="ready"] :is(.cg-funnel, .cg-funnel-rim) { display: block; }
+.cg-dragging :is(.cg-funnel, .cg-funnel-rim, .cg-funnel-front),
+.cg-avatar:is([data-travel], [data-coast]) :is(.cg-funnel, .cg-funnel-rim, .cg-funnel-front) { transition: none; }
+.chef-guide[data-performer="ready"][data-tornado="ready"] :is(.cg-funnel, .cg-funnel-rim, .cg-funnel-front) { display: block; }
 .chef-guide[data-performer="ready"][data-tornado="ready"] .cg-tornado { display: none; }
-.cg-funnel-frame, .cg-rim-frame {
+.cg-funnel-frame, .cg-rim-frame, .cg-wrap-frame {
   display: block;
   width: 100%;
   height: 100%;
-  background-image: var(--cg-spin-art);
+  --cg-funnel-frames: var(--cg-strip-frames, var(--cg-frame-count, 32));
+  background-image: var(--cg-strip-art, var(--cg-spin-art));
   background-repeat: no-repeat;
-  background-size: calc(var(--cg-frame-count, 32) * 100%) 100%;
-  animation: cg-tornado-spin 1.36s steps(var(--cg-frame-count, 32), jump-none) infinite;
+  background-size: calc(var(--cg-funnel-frames) * 100%) 100%;
+  animation: cg-tornado-spin 1.36s steps(var(--cg-funnel-frames), jump-none) infinite;
 }
+.cg-wrap-frame { position: absolute; inset: 0; --cg-strip-art: none; }
 .cg-funnel-frame { filter: drop-shadow(0 2px 2px #261a1826); }
 @keyframes cg-tornado-spin {
   from { background-position-x: 0%; }
   to { background-position-x: 100%; }
 }
-.cg-still :is(.cg-funnel, .cg-funnel-rim) { transition: none; }
+.cg-still :is(.cg-funnel, .cg-funnel-rim, .cg-funnel-front) { transition: none; }
 /* Hold the pointer steady without restarting the rider's balance loop. */
 .cg-avatar[data-pointing] .cg-rider-plane {
   --cg-balance-angle: 0deg;
@@ -491,4 +493,4 @@
   0%, 100% { rotate: calc(-1 * var(--cg-balance-angle)); scale: 1 1; }
   50% { rotate: var(--cg-balance-angle); scale: 1 var(--cg-balance-rise); }
 }
-.cg-still :is(.cg-rider-plane, .cg-funnel-frame, .cg-rim-frame) { animation-play-state: paused; }
+.cg-still :is(.cg-rider-plane, .cg-funnel-frame, .cg-rim-frame, .cg-wrap-frame) { animation-play-state: paused; }

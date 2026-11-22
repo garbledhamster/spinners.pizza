@@ -25,8 +25,11 @@ function reviewLink(source, author) {
 
 const menuPhotos = {
   "assets/images/food/chicken-alfredo-pizza.jpg": [1528, 1224],
+  "assets/images/food/supreme-pizza.jpg": [1528, 1224],
   "assets/images/food/gyro-seasoned-fries.jpg": [428, 343],
   "assets/images/food/hoagie-burger-and-fries.jpg": [1128, 904],
+  "assets/images/food/breadsticks.jpg": [506, 404],
+  "assets/images/food/drinks.jpg": [2184, 1744],
 };
 
 function menuGroup({ title, items, photo }) {
@@ -62,7 +65,14 @@ module.exports = function renderContent({ root }) {
   const menu = read("menu.json");
   const groups = menu.sections.map(menuGroup);
   const gallery = read("gallery.json").map((photo) => galleryPhoto(root, photo));
-  const storyPhoto = gallery.find(({ original }) => original.includes("/05%20")) ?? gallery[0];
+  const about = read("about.json");
+  const menuSheets = menu.images.map((source, index) => {
+    const page = index + 1;
+    return `<a href="${escapeHtml(localImage(source))}" data-menu-photo>
+      <img src="${photoDirectory}/menu-sheet-${page}.jpg" width="355" height="520" alt="Printed menu page ${page}" loading="lazy" decoding="async">
+      <span aria-hidden="true">View page ${page}</span>
+    </a>`;
+  }).join("\n");
   const galleryItems = gallery.map((photo) => (
     `<a href="${escapeHtml(photo.original)}" data-gallery>${galleryImage(photo)}</a>`
   )).join("\n");
@@ -83,21 +93,29 @@ module.exports = function renderContent({ root }) {
       <img src="${illustrations}/pizza-boxes.webp" width="610" height="501" alt="" loading="lazy" decoding="async">
       <figcaption>Illustration</figcaption>
     </figure>`;
-  const storyCopy = "Tim and Brenda Klein have made Spinners a gathering place in Grovespring since 2016. Their son Brandon carries on the original Spinners in Stoughton, Wisconsin.";
-  const storyImage = storyPhoto
-    ? `<figure>${galleryImage(storyPhoto)}<figcaption>Grovespring dining room · Restaurant photo</figcaption></figure>`
-    : "";
+  const storyImage = `<figure>
+    <img src="${escapeHtml(localImage(about.image))}" width="500" height="500" alt="The original Spinners chef tossing a pizza" loading="lazy" decoding="async">
+    <figcaption>Original Spinners artwork</figcaption>
+  </figure>`;
 
   return `<section id="menu" class="wrap section" aria-labelledby="menu-title">
   <div class="section-heading">
     <h2 id="menu-title">On the menu</h2>
-    <a href="#scoops" class="text-link">Desserts <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+    <div class="menu-links">
+      <a href="#menu-photos" class="text-link">Printed menu</a>
+      <a href="#scoops" class="text-link">Desserts <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+    </div>
   </div>
   <div class="menu-grid">
     <div class="menu-column">${groups.slice(0, 3).join("\n")}</div>
     <div class="menu-column">${groups.slice(3).join("\n")}</div>
   </div>
   ${menu.note ? `<p class="menu-note">${escapeHtml(menu.note)}</p>` : ""}
+  <div class="printed-menu" id="menu-photos">
+    <h3>Printed menu</h3>
+    <p>These pages show an older address. Use <a href="#visit">the map</a> for directions and <a href="#carry-out">call Spinners</a> for current prices and availability.</p>
+    <div class="printed-menu-grid">${menuSheets}</div>
+  </div>
 </section>
 
 <section id="scoops" class="wrap section" aria-labelledby="scoop-title">
@@ -124,18 +142,20 @@ module.exports = function renderContent({ root }) {
 <section id="story" class="wrap section story" aria-labelledby="story-title">
   <div>
     <h2 id="story-title"><span id="about">Our family story</span></h2>
-    <p>${storyCopy}</p>
+    <p>Since 2016, Tim and Brenda Klein have poured family, faith, and hard work into a neighborhood spot where friends become regulars and regulars become family. Their son Brandon carries on the original Spinners in Stoughton, Wisconsin, while Tim and Brenda serve Grovespring.</p>
+    <p>From handcrafted pizzas and custom Hoagie Burgers to smoky BBQ and sweet desserts, there’s always something new to try. Thank you to our neighbors for making Spinners a place to gather.</p>
   </div>
   ${storyImage}
 </section>
 
 <section id="gallery" class="wrap section" aria-labelledby="gallery-title">
   <div class="section-heading"><h2 id="gallery-title">Inside Spinners</h2><span>Restaurant photos</span></div>
+  <p class="section-intro">Take a spin around our place. Our cozy dining room is perfect for dates, families, and parties, with a welcoming team.</p>
   <div class="gallery-grid">${galleryItems}</div>
 </section>
 
 <section id="reviews" class="wrap section" aria-labelledby="reviews-title">
-  <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><span>From the Spinners website</span></div>
+  <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><span>What our guests are saying</span></div>
   <div class="reviews-grid">${reviews}</div>
 </section>
 
@@ -143,6 +163,11 @@ module.exports = function renderContent({ root }) {
   <div>
     <h2 id="photo-label">Restaurant photo</h2>
     <form method="dialog"><button type="submit" id="close-photo" autofocus>Close</button></form>
+  </div>
+  <div class="photo-controls" role="group" aria-label="Photo controls">
+    <button type="button" id="previous-photo">Previous</button>
+    <a class="text-link" id="photo-original" href="#photo-dialog">Open full size</a>
+    <button type="button" id="next-photo">Next</button>
   </div>
 </dialog>`;
 };

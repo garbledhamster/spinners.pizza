@@ -22,6 +22,22 @@ export function createTornadoMotion({ root, avatar, tornado, art, waistY, still 
   rim.firstElementChild.className = "cg-rim-frame";
   tornado.parentElement.append(rim);
 
+  const spinLayers = [spin, rim.firstElementChild];
+  if (art.wrap) {
+    const front = document.createElement("span");
+    front.className = "cg-funnel-front";
+    front.setAttribute("aria-hidden", "true");
+    tornado.parentElement.append(front);
+    for (const [container, side] of [[funnel, "rear"], [front, "near"]]) {
+      const layer = document.createElement("span");
+      layer.className = "cg-wrap-frame";
+      layer.style.setProperty("--cg-strip-frames", art.wrap.frames);
+      container.prepend(layer);
+      spinLayers.push(layer);
+      prepareArt(art.wrap[side], image => layer.style.setProperty("--cg-strip-art", image));
+    }
+  }
+
   prepareArt(art.spin, image => {
     root.style.setProperty("--cg-spin-art", image);
     root.style.setProperty("--cg-frame-count", art.frames);
@@ -48,7 +64,7 @@ export function createTornadoMotion({ root, avatar, tornado, art, waistY, still 
   let puffIndex = 0;
 
   function setSpinRate(rate) {
-    for (const layer of [spin, rim.firstElementChild]) {
+    for (const layer of spinLayers) {
       for (const animation of layer.getAnimations()) animation.updatePlaybackRate(rate);
     }
   }

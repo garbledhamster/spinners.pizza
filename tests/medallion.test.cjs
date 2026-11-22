@@ -12,9 +12,11 @@ const fixture = `<!doctype html>
 <title>Medallion fixture</title>
 <link rel="stylesheet" href="/styles/medallion.css">
 <script src="/scripts/medallion.js" defer></script>
-<div id="medallion" aria-hidden="true">
-  <span class="seal-ring"></span>
-  <img id="chef" src="/assets/images/logos/1.png" alt="" width="105" height="105">
+<div class="seal" aria-hidden="true">
+  <div id="medallion">
+    <span class="seal-ring"></span>
+    <img id="chef" src="/assets/images/logos/1.png" alt="" width="105" height="105">
+  </div>
 </div>
 <button id="motion-control" type="button" hidden>Pause emblem</button>`;
 
@@ -75,7 +77,7 @@ async function chefVariant(page) {
   });
 }
 
-test("the chef and ring share a four-second Y-axis turn", async (t) => {
+test("the chef and ring share a four-second clockwise coin turn", async (t) => {
   const page = await openFixture(t);
   const animation = await page.locator("#medallion").evaluate(async (badge) => {
     const [flip] = badge.getAnimations();
@@ -91,6 +93,7 @@ test("the chef and ring share a four-second Y-axis turn", async (t) => {
       iterations,
       m13,
       m31,
+      perspective: getComputedStyle(badge.parentElement).perspective,
       children: ringAndChef.length,
       childAnimations: ringAndChef.flatMap((part) => part.getAnimations()).length,
     };
@@ -98,15 +101,16 @@ test("the chef and ring share a four-second Y-axis turn", async (t) => {
   assert.ok(animation, "Expected a CSS animation on the whole #medallion");
   assert.equal(animation.duration, 4000);
   assert.equal(animation.iterations, Infinity);
-  assert.ok(Math.abs(animation.m13) > 0.1 && Math.abs(animation.m31) > 0.1, "Expected a Y-axis turn at 500 ms");
+  assert.ok(animation.m13 > 0.1 && animation.m31 < -0.1, "The right rim should move toward the viewer first");
+  assert.notEqual(animation.perspective, "none", "The moving rims need visible perspective");
   assert.equal(animation.children, 2);
   assert.equal(animation.childAnimations, 0);
-  assert.equal(await page.locator("#medallion").getAttribute("aria-hidden"), "true");
+  assert.equal(await page.locator(".seal").getAttribute("aria-hidden"), "true");
 });
 
-test("reduced motion keeps the badge still and shuffles all six original images on schedule", async (t) => {
+test("the emblem turns by default and shuffles all six original images on schedule", async (t) => {
   const page = await openFixture(t, { reducedMotion: "reduce" });
-  assert.deepEqual(await pose(page), { playState: "none", transform: "none" });
+  assert.equal((await pose(page)).playState, "running");
   assert.equal(await chefVariant(page), "1.png");
   await page.clock.runFor(3999);
   assert.equal(await chefVariant(page), "1.png");
@@ -119,12 +123,12 @@ test("reduced motion keeps the badge still and shuffles all six original images 
   await page.emulateMedia({ reducedMotion: "no-preference" });
   assert.equal((await pose(page)).playState, "running");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  assert.deepEqual(await pose(page), { playState: "none", transform: "none" });
+  assert.equal((await pose(page)).playState, "running");
   await page.clock.runFor(4000);
   assert.equal(await chefVariant(page), "3.png");
 });
 
-test("keyboard Pause holds the image and rotation, and Resume uses the live motion preference", async (t) => {
+test("keyboard Pause holds the image and rotation, and Resume keeps the playhead", async (t) => {
   const page = await openFixture(t);
   const pause = page.getByRole("button", { name: "Pause emblem", exact: true });
   const resume = page.getByRole("button", { name: "Resume emblem", exact: true });
@@ -144,7 +148,7 @@ test("keyboard Pause holds the image and rotation, and Resume uses the live moti
   assert.equal(await chefVariant(page), "1.png");
 
   await page.emulateMedia({ reducedMotion: "reduce" });
-  assert.deepEqual(await pose(page), { playState: "none", transform: "none" });
+  assert.deepEqual(await pose(page), pausedPose);
   await page.clock.runFor(4000);
   assert.equal(await chefVariant(page), "1.png");
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -155,7 +159,7 @@ test("keyboard Pause holds the image and rotation, and Resume uses the live moti
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.keyboard.press("Space");
   assert.equal(await pause.isVisible(), true);
-  assert.deepEqual(await pose(page), { playState: "none", transform: "none" });
+  assert.equal((await pose(page)).playState, "running");
   await page.clock.runFor(3999);
   assert.equal(await chefVariant(page), "1.png");
   await page.clock.runFor(1);

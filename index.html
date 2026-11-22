@@ -51,14 +51,14 @@
       "menu": "https://spinners.pizza/#menu"
     }
   </script>
-  <link rel="stylesheet" href="styles/counter-ticket.css">
-  <link rel="stylesheet" href="styles/medallion.css">
-  <link rel="stylesheet" href="site/chef-tour/tour-guide.css?v=3">
+  <link rel="stylesheet" href="styles/counter-ticket.css?v=4">
+  <link rel="stylesheet" href="styles/medallion.css?v=4">
+  <link rel="stylesheet" href="site/chef-tour/tour-guide.css?v=4">
   <script src="scripts/visit-ui.js" defer></script>
   <script src="scripts/hours.js" defer></script>
   <script src="scripts/medallion.js" defer></script>
-  <script src="scripts/gallery.js" defer></script>
-  <script type="module" src="site/chef-tour/spinners-tours.mjs?v=3"></script>
+  <script src="scripts/gallery.js?v=4" defer></script>
+  <script type="module" src="site/chef-tour/spinners-tours.mjs?v=4"></script>
 </head>
 <body>
   <svg class="symbols" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +164,10 @@
 <section id="menu" class="wrap section" aria-labelledby="menu-title">
   <div class="section-heading">
     <h2 id="menu-title">On the menu</h2>
-    <a href="#scoops" class="text-link">Desserts <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+    <div class="menu-links">
+      <a href="#menu-photos" class="text-link">Printed menu</a>
+      <a href="#scoops" class="text-link">Desserts <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+    </div>
   </div>
   <div class="menu-grid">
     <div class="menu-column"><details class="menu-group" open>
@@ -178,7 +181,7 @@
 </details>
 <details class="menu-group" open>
   <summary>Create Your Own Pizza</summary>
-  <div class="menu-body"><ul><li>Original Hand Tossed ✅</li>
+  <div class="menu-body"><img src="assets/images/food/supreme-pizza.jpg" width="1528" height="1224" alt="" loading="lazy" decoding="async"><ul><li>Original Hand Tossed ✅</li>
 <li>Gluten-Free ✅</li>
 <li>All your favorite toppings✅</li></ul></div>
 </details>
@@ -199,7 +202,7 @@
 </details>
 <details class="menu-group" open>
   <summary>Appetizers</summary>
-  <div class="menu-body"><ul><li>Garlic Breadsticks ⭐</li>
+  <div class="menu-body"><img src="assets/images/food/breadsticks.jpg" width="506" height="404" alt="" loading="lazy" decoding="async"><ul><li>Garlic Breadsticks ⭐</li>
 <li>Mac &#39;n Cheese Bacon Nuggets</li>
 <li>Jalapeño Poppers</li>
 <li>Mozzarella Sticks</li>
@@ -208,12 +211,24 @@
 </details>
 <details class="menu-group" open>
   <summary>Drinks &amp; Dessert</summary>
-  <div class="menu-body"><ul><li>Fountain Drinks ⭐</li>
+  <div class="menu-body"><img src="assets/images/food/drinks.jpg" width="2184" height="1744" alt="" loading="lazy" decoding="async"><ul><li>Fountain Drinks ⭐</li>
 <li>Bottled Beverages</li>
 <li>Cookies</li></ul></div>
 </details></div>
   </div>
   <p class="menu-note">★ Serving frog legs and fish daily ★</p>
+  <div class="printed-menu" id="menu-photos">
+    <h3>Printed menu</h3>
+    <p>These pages show an older address. Use <a href="#visit">the map</a> for directions and <a href="#carry-out">call Spinners</a> for current prices and availability.</p>
+    <div class="printed-menu-grid"><a href="assets/images/menu/menu1.png" data-menu-photo>
+      <img src="assets/images/counter-ticket/menu-sheet-1.jpg" width="355" height="520" alt="Printed menu page 1" loading="lazy" decoding="async">
+      <span aria-hidden="true">View page 1</span>
+    </a>
+<a href="assets/images/menu/menu2.png" data-menu-photo>
+      <img src="assets/images/counter-ticket/menu-sheet-2.jpg" width="355" height="520" alt="Printed menu page 2" loading="lazy" decoding="async">
+      <span aria-hidden="true">View page 2</span>
+    </a></div>
+  </div>
 </section>
 
 <section id="scoops" class="wrap section" aria-labelledby="scoop-title">
@@ -246,13 +261,18 @@
 <section id="story" class="wrap section story" aria-labelledby="story-title">
   <div>
     <h2 id="story-title"><span id="about">Our family story</span></h2>
-    <p>Tim and Brenda Klein have made Spinners a gathering place in Grovespring since 2016. Their son Brandon carries on the original Spinners in Stoughton, Wisconsin.</p>
+    <p>Since 2016, Tim and Brenda Klein have poured family, faith, and hard work into a neighborhood spot where friends become regulars and regulars become family. Their son Brandon carries on the original Spinners in Stoughton, Wisconsin, while Tim and Brenda serve Grovespring.</p>
+    <p>From handcrafted pizzas and custom Hoagie Burgers to smoky BBQ and sweet desserts, there’s always something new to try. Thank you to our neighbors for making Spinners a place to gather.</p>
   </div>
-  <figure><img src="assets/images/counter-ticket/dining-05.jpg" width="640" height="482" alt="Dining Room from Counter" loading="lazy" decoding="async"><figcaption>Grovespring dining room · Restaurant photo</figcaption></figure>
+  <figure>
+    <img src="assets/images/logos/97.png" width="500" height="500" alt="The original Spinners chef tossing a pizza" loading="lazy" decoding="async">
+    <figcaption>Original Spinners artwork</figcaption>
+  </figure>
 </section>
 
 <section id="gallery" class="wrap section" aria-labelledby="gallery-title">
   <div class="section-heading"><h2 id="gallery-title">Inside Spinners</h2><span>Restaurant photos</span></div>
+  <p class="section-intro">Take a spin around our place. Our cozy dining room is perfect for dates, families, and parties, with a welcoming team.</p>
   <div class="gallery-grid"><a href="assets/images/restaurant/02%20walking%20in%20from%20front%20door%20looking%20at%20the%20dining%20room.jpg" data-gallery><img src="assets/images/counter-ticket/dining-02.jpg" width="640" height="482" alt="Walking into Dining Room" loading="lazy" decoding="async"></a>
 <a href="assets/images/restaurant/03%20straight%20from%20the%20entrance%20looking%20at%20the%20counter.jpg" data-gallery><img src="assets/images/counter-ticket/dining-03.jpg" width="640" height="482" alt="Looking at the Counter" loading="lazy" decoding="async"></a>
 <a href="assets/images/restaurant/04%20view%20from%20counter%20looking%20at%20the%20door%20to%20the%20restaurant%20and%20the%20restrooms.jpg" data-gallery><img src="assets/images/counter-ticket/dining-04.jpg" width="640" height="482" alt="Door to Restaurant and Restrooms" loading="lazy" decoding="async"></a>
@@ -263,7 +283,7 @@
 </section>
 
 <section id="reviews" class="wrap section" aria-labelledby="reviews-title">
-  <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><span>From the Spinners website</span></div>
+  <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><span>What our guests are saying</span></div>
   <div class="reviews-grid"><figure>
   <blockquote>The food was great! Had a side salad, garlic cheese sticks, and a small deluxe pizza! Everything was super fresh and super tasty! The two young girls that were working were nice and attentive! Would definitely recommend! Stop by if you are close!</blockquote>
   <figcaption><a href="https://maps.app.goo.gl/8FukpDRr5WbMhpGTA">Ashley Alderson</a></figcaption>
@@ -287,6 +307,11 @@
     <h2 id="photo-label">Restaurant photo</h2>
     <form method="dialog"><button type="submit" id="close-photo" autofocus>Close</button></form>
   </div>
+  <div class="photo-controls" role="group" aria-label="Photo controls">
+    <button type="button" id="previous-photo">Previous</button>
+    <a class="text-link" id="photo-original" href="#photo-dialog">Open full size</a>
+    <button type="button" id="next-photo">Next</button>
+  </div>
 </dialog>
     <section id="visit" class="visit-section" aria-labelledby="visit-title">
       <div id="order" class="wrap section">
@@ -296,15 +321,15 @@
         </div>
         <div class="visit-grid">
           <div class="locator">
-<figure class="locator-art">
-  <img src="assets/images/counter-ticket/illustrations/ozarks.webp" width="648" height="492" alt="Illustrated road through the Ozarks hills" loading="lazy" decoding="async">
-  <figcaption>Ozarks illustration</figcaption>
-</figure>
             <div class="locator-copy">
               <svg aria-hidden="true" focusable="false"><use href="#i-locator"/></svg>
               <h3>9537 MO-5, Grovespring, MO 65662</h3>
               <a class="text-link" href="https://www.google.com/maps?cid=10087945801653444493">Open in Google Maps <svg aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
             </div>
+            <iframe class="locator-map" title="Spinners Pizza on Google Maps" loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.371964378669!2d-92.60439042413377!3d37.40468217208095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c55157bff0a993%3A0x8bf775b1d6a5af4d!2sSpinners%20Restaurant!5e0!3m2!1sen!2sus!4v1732477221013!5m2!1sen!2sus"></iframe>
+            <a class="text-link locator-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=9537%20MO-5%2C%20Grovespring%2C%20MO%2065662">Get directions</a>
           </div>
           <div class="carry">
             <svg aria-hidden="true" focusable="false"><use href="#i-call"/></svg>
@@ -327,7 +352,7 @@
         <img src="assets/images/logos/1.png" alt="" width="42" height="42">
         <span>Spinners Pizza</span>
       </a>
-      <p>Grovespring, Missouri</p>
+      <p>© Spinners Pizza. All rights reserved.</p>
       <a href="#top">Back to top</a>
     </div>
   </footer>
