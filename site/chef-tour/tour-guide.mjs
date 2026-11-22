@@ -118,7 +118,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   const tipLink = find(".cg-tip-link");
   const tipButton = find(".cg-tip-button");
   const stepMenuButton = find(".cg-tours");
-  const compactLabel = find(".cg-compact-label");
   const launchLabel = find(".cg-launch-label");
   const askLabel = `Ask the ${character.name}`;
   const announcement = find(".cg-announcement");
@@ -136,6 +135,9 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   sprite.style.transformOrigin = character.grip.map(n => `${n * 100}%`).join(" ");
   [emitter.style.left, emitter.style.top] = character.emitter.map(n => `${n * 100}%`);
   document.body.append(root);
+  const guideStyle = getComputedStyle(root);
+  const compactWidth = parseFloat(guideStyle.getPropertyValue("--cg-compact-width"));
+  const compactHeight = parseFloat(guideStyle.getPropertyValue("--cg-compact-height"));
 
   const shortScreen = matchMedia("(max-height: 500px)");
   let paused = false;
@@ -341,8 +343,8 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     }
 
     // Prefer a bottom corner, then look for a gap between native controls.
-    const width = compactLabel.offsetWidth;
-    const height = compactLabel.offsetHeight;
+    const width = compactWidth;
+    const height = compactHeight;
     const right = screen.width - width - 12;
     const bottom = screen.height - height - 12;
     const tops = [bottom, ...controls.map(box => box.top - height - 4).sort((a, b) => b - a), 12];
@@ -364,7 +366,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   function dockPosition(dock) {
     return dock.left === undefined
       ? withinViewport(dock.x, dock.y)
-      : withinViewport(dock.left, dock.top - avatar.offsetHeight + compactLabel.offsetHeight);
+      : withinViewport(dock.left, dock.top - avatar.offsetHeight + compactHeight);
   }
 
   function applyDock(dock) {

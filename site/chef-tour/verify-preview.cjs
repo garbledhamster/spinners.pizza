@@ -157,9 +157,11 @@ async function checkScreen(name, engine, viewport) {
     await page.keyboard.press("Escape");
     assert.equal(await picker.isVisible(), false);
     const before = await launch.boundingBox();
-    await page.mouse.move(before.x + 37, before.y + 35);
+    const dragX = before.x + before.width / 2;
+    const dragY = before.y + before.height / 2;
+    await page.mouse.move(dragX, dragY);
     await page.mouse.down();
-    await page.mouse.move(before.x - 25, before.y - 22, { steps: 6 });
+    await page.mouse.move(dragX + (dragX > viewport.width / 2 ? -62 : 62), Math.max(8, dragY - 57), { steps: 6 });
     await page.mouse.up();
     const coast = page.locator(".cg-avatar[data-coast]");
     await coast.waitFor({ state: "detached" });

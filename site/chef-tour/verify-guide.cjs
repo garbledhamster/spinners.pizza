@@ -171,7 +171,11 @@ async function verify({ name, engine, viewport, touch = false }) {
     assert((await avatar.boundingBox()).x < 25 && (await avatar.boundingBox()).y < 30);
     assert.deepEqual(await settings.boundingBox(), dock);
     await press(control("Reset position"));
-    assert((await launch.boundingBox()).x > viewport.width / 2);
+    const restored = await launch.boundingBox();
+    assert(restored.x > viewport.width / 2);
+    assert(restored.x + restored.width <= viewport.width && restored.y + restored.height <= viewport.height,
+      "The compact Guide button must fit in the viewport.");
+    assert.equal(await settingsPanel.getByRole("button", { name: "Guide motion" }).isVisible(), true);
     const motion = control("Guide motion");
     const icon = motion.locator(".cg-settings-icon");
     const image = () => icon.evaluate(el => getComputedStyle(el).backgroundImage);

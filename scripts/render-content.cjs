@@ -37,7 +37,11 @@ function menuGroup({ title, items, photo }) {
   const image = dimensions
     ? `<img src="${escapeHtml(localImage(photo))}" width="${dimensions[0]}" height="${dimensions[1]}" alt="" loading="lazy" decoding="async">`
     : "";
-  const rows = items.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n");
+  const rows = items.map((item) => {
+    const accent = item.endsWith("⭐") ? ' class="menu-feature"' : "";
+    const name = item.replace(/\s*[⭐✅]$/u, "");
+    return `<li${accent}>${escapeHtml(name)}</li>`;
+  }).join("\n");
   const heading = title === "Drinks & Desert" ? "Drinks & Dessert" : title;
   return `<details class="menu-group" open>
   <summary>${escapeHtml(heading)}</summary>
@@ -149,7 +153,7 @@ module.exports = function renderContent({ root }) {
 </section>
 
 <section id="gallery" class="wrap section" aria-labelledby="gallery-title">
-  <div class="section-heading"><h2 id="gallery-title">Inside Spinners</h2><span>Restaurant photos</span></div>
+  <div class="section-heading"><h2 id="gallery-title">Inside Spinners</h2></div>
   <p class="section-intro">Take a spin around our place. Our cozy dining room is perfect for dates, families, and parties, with a welcoming team.</p>
   <div class="gallery-grid">${galleryItems}</div>
 </section>

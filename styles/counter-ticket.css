@@ -117,8 +117,8 @@ svg {
 .hero h1 {
   color: var(--tomato);
   font-size: clamp(4.1rem, 8.4vw, 7.6rem);
-  line-height: .83;
-  letter-spacing: -.062em;
+  line-height: .9;
+  letter-spacing: -.049em;
   overflow-wrap: anywhere;
 }
 
@@ -619,7 +619,17 @@ svg {
   padding-top: clamp(14px, 3vw, 36px);
 }
 
-.gallery-grid { gap: clamp(6px, 1.3vw, 16px); }
+.gallery-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(6px, 1.3vw, 16px);
+  padding: clamp(10px, 2vw, 24px);
+  border: 1px solid #ad8164;
+  background: #f7ead4;
+  border-image: var(--counter-album) 37 fill / 12px;
+}
+
+.gallery-grid a:first-child { grid-area: span 2 / span 2; }
+.gallery-grid a:first-child img { height: 100%; aspect-ratio: auto; }
 .gallery-grid a[data-gallery] {
   padding: clamp(3px, .55vw, 8px);
   border: 1px solid #c0a78e;
@@ -628,7 +638,13 @@ svg {
   box-shadow: 0 3px 5px #4f2f1a1f;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-grid a[data-gallery] { transition: translate 160ms ease-out; }
+  .gallery-grid a[data-gallery]:is(:hover, :focus-visible) { translate: 0 -2px; }
+}
+
 .gallery-grid a:focus-visible { outline-offset: 2px; }
+.menu-feature { font-weight: 680; }
 
 #reviews {
   border-top: 4px double #aa856a;
@@ -665,6 +681,11 @@ svg {
 }
 
 @media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .gallery-grid a:first-child { grid-area: auto / 1 / auto / -1; }
+  .gallery-grid a:first-child img { height: auto; aspect-ratio: 16 / 9; }
+  .footer-inner { padding-bottom: 4rem; }
+
   #menu > .section-heading, #order > .section-heading {
     min-height: 0;
     padding-block: .8rem .55rem;

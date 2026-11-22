@@ -108,9 +108,12 @@ export function mountGuideSettings({ host, closeGuide, toggleFollow, toggleMotio
       place.focus({ preventScroll: true });
     } else setOpen(false, true);
   });
-  document.addEventListener("pointerdown", event => {
+  function dismissOutside(event) {
     if (!panel.hidden && !host.contains(event.target)) setOpen(false);
-  });
+  }
+
+  document.addEventListener("pointerdown", dismissOutside);
+  document.addEventListener("focusin", dismissOutside);
   setPositions(false);
   return { sync, close: () => setOpen(false), isOpen: () => !panel.hidden };
 }

@@ -30,9 +30,10 @@ test("renders all static destinations, menu groups, and attributed reviews from 
   assert.equal(groups.length, source.sections.length);
   assert.deepEqual(groups.map(([, group]) => ({
     title: text(group.match(/<summary>(.*?)<\/summary>/)[1]),
-    items: [...group.matchAll(/<li>(.*?)<\/li>/g)].map(([, row]) => text(row)),
+    items: [...group.matchAll(/<li(?: class="menu-feature")?>(.*?)<\/li>/g)].map(([, row]) => text(row)),
   })), source.sections.map(({ title, items }) => ({
-    title: title.replace("Drinks & Desert", "Drinks & Dessert"), items,
+    title: title.replace("Drinks & Desert", "Drinks & Dessert"),
+    items: items.map(item => item.replace(/\s*[⭐✅]$/u, "")),
   })));
   assert.match(menu, /Drinks &amp; Dessert/);
 
