@@ -50,6 +50,14 @@ async function checkScreen(name, engine, viewport) {
     const image = page.locator(".cg-art");
     await image.evaluate(img => img.decode());
     await page.locator('.chef-guide[data-performer="ready"]').waitFor({ state: "attached" });
+    const launch = page.getByRole("button", { name: "Ask the Spinners chef" });
+    const compact = page.locator(".cg-avatar[data-compact]");
+    if (await compact.count()) {
+      const hit = await launch.boundingBox();
+      assert(hit.x >= 0 && hit.y >= 0 && hit.x + hit.width <= viewport.width &&
+        hit.y + hit.height <= viewport.height, "The compact guide is fully reachable.");
+      await launch.press("Alt+ArrowUp");
+    }
     const funnel = page.locator(".cg-funnel-frame");
     await funnel.waitFor();
     const firstFrame = await funnel.evaluate(el => getComputedStyle(el).backgroundPositionX);
@@ -58,7 +66,6 @@ async function checkScreen(name, engine, viewport) {
       return getComputedStyle(frame).backgroundPositionX !== initial;
     }, firstFrame);
 
-    const launch = page.getByRole("button", { name: "Ask the Spinners chef" });
     const picker = page.locator(".cg-picker");
     const progress = page.locator(".cg-progress");
     const capture = async (state) => {

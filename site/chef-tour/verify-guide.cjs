@@ -168,11 +168,13 @@ async function verify({ name, engine, viewport, touch = false }) {
     await press(settings);
     await press(control("Move chef"));
     await press(control("Top left"));
-    assert((await avatar.boundingBox()).x < 25 && (await avatar.boundingBox()).y < 30);
+    const corner = await avatar.boundingBox();
+    assert(corner.x < 25 && corner.y < 30);
     assert.deepEqual(await settings.boundingBox(), dock);
     await press(control("Reset position"));
+    const defaultDock = await avatar.boundingBox();
+    assert(Math.hypot(defaultDock.x - corner.x, defaultDock.y - corner.y) > 50);
     const restored = await launch.boundingBox();
-    assert(restored.x > viewport.width / 2);
     assert(restored.x + restored.width <= viewport.width && restored.y + restored.height <= viewport.height,
       "The compact Guide button must fit in the viewport.");
     assert.equal(await settingsPanel.getByRole("button", { name: "Guide motion" }).isVisible(), true);
