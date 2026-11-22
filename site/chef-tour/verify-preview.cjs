@@ -76,8 +76,8 @@ async function checkScreen(name, engine, viewport) {
     const [captionBox, funnelBox] = await Promise.all([badge.boundingBox(), funnel.boundingBox()]);
     assert(captionBox.y >= funnelBox.y + funnelBox.height + 4, `${name}: the caption overlaps the tornado`);
     assert(captionBox.y + captionBox.height <= viewport.height, `${name}: the caption is cut off`);
-    const frame = await page.locator(".cg-frame-art").boundingBox();
-    assert(Math.abs(frame.width - frame.height) < .05, `${name}: the square chef sprite is stretched`);
+    const squareArt = await page.locator(".cg-frame-art").evaluate(el => el.offsetWidth === el.offsetHeight);
+    assert(squareArt, `${name}: the square chef sprite is stretched`);
     const waist = await page.locator(".cg-avatar").evaluate(avatar => {
       const rider = avatar.querySelector(".cg-performance");
       const funnel = avatar.querySelector(".cg-funnel");
@@ -221,10 +221,10 @@ async function checkScreen(name, engine, viewport) {
       assert(settled.x < released.x - 30, "A quick flick continues in the release direction.");
       await page.waitForFunction(() => !document.querySelector(".cg-dust:not([hidden])"));
     }
+    await page.getByRole("button", { name: "Guide settings", exact: true }).click();
+    await page.getByRole("button", { name: "Guide motion", exact: true }).click();
+    await page.getByRole("button", { name: "Close guide settings", exact: true }).click();
     await launch.click();
-    await picker.getByRole("button", { name: "Guide settings", exact: true }).click();
-    await picker.getByRole("button", { name: "Pause motion", exact: true }).click();
-    await picker.getByRole("button", { name: "Back", exact: true }).click();
     await picker.getByRole("button", { name: "Guided tours", exact: true }).click();
     await picker.getByRole("button", { name: "Menu tour", exact: true }).click();
     assert.equal(await page.locator(".cg-avatar").evaluate(el => getComputedStyle(el).transitionDuration), "0s");

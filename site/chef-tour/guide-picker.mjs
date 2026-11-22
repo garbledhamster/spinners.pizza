@@ -3,7 +3,6 @@ export function createGuidePicker({ picker, home, choose, place }) {
   const heading = picker.querySelector("h2");
   const copy = picker.querySelector(".cg-picker-copy");
   const choices = picker.querySelector(".cg-choices");
-  const footer = picker.querySelector(".cg-picker-foot");
   const backButton = picker.querySelector(".cg-picker-back");
   const pages = [{ ...home }];
   let selectedEntry;
@@ -36,13 +35,11 @@ export function createGuidePicker({ picker, home, choose, place }) {
     copy.hidden = !page.text;
     backButton.hidden = pages.length === 1;
     choices.replaceChildren(...entries.map(builder));
-    footer.replaceChildren(...(page.footer ?? []).map(builder));
-    footer.hidden = !page.footer?.length;
     body.scrollTop = 0;
     place();
     if (focus) {
       const rows = [...picker.querySelectorAll(".cg-choice")];
-      const index = entries.concat(page.footer ?? []).findIndex(entry => (entry.id ?? entry.label) === selectedEntry);
+      const index = entries.findIndex(entry => (entry.id ?? entry.label) === selectedEntry);
       (rows[index] ?? rows[0] ?? picker.querySelector(".cg-close-picker")).focus({ preventScroll: true });
     }
   }
@@ -69,5 +66,5 @@ export function createGuidePicker({ picker, home, choose, place }) {
     render();
   });
 
-  return { openMenu, render, reset };
+  return { openMenu, reset };
 }

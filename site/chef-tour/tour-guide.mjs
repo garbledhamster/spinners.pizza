@@ -1,5 +1,6 @@
 import { createChefPerformance } from "./chef-performance.mjs?v=4";
-import { createGuidePicker } from "./guide-picker.mjs?v=4";
+import { createGuidePicker } from "./guide-picker.mjs?v=5";
+import { mountGuideSettings } from "./guide-settings.mjs?v=5";
 
 const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(value, Math.max(minimum, maximum)));
 const degrees = Math.PI / 180;
@@ -75,7 +76,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
         <p class="cg-picker-copy" hidden></p>
         <p class="cg-picker-error" hidden></p>
         <div class="cg-choices"></div>
-        <footer class="cg-picker-foot" hidden></footer>
       </div>
     </section>
     <section class="cg-card cg-step" aria-labelledby="chef-step-title" hidden>
@@ -100,6 +100,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
         <button class="cg-next" type="button">Next</button>
       </footer>
     </section>
+    <div class="cg-settings"></div>
     <div class="cg-announcement" role="status" aria-live="polite"></div>
   `;
   const find = selector => root.querySelector(selector);
@@ -124,6 +125,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   const pickerError = find(".cg-picker-error");
   const followNote = find(".cg-follow-note");
   const visual = find(".cg-visual");
+  const settingsHost = find(".cg-settings");
   for (const [image, src] of [[art, character.image], [tornado, character.tornado]]) {
     image.addEventListener("error", () => { image.hidden = true; }, { once: true });
     image.src = src;
@@ -297,7 +299,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
 
   function visibleControls(screen) {
     return [...document.querySelectorAll(nativeControls)].flatMap(control => {
-      if (root.contains(control)) return [];
+      if (root.contains(control) && !settingsHost.contains(control)) return [];
       const box = control.getBoundingClientRect();
       return box.width > 0 && box.height > 0 && box.right > 0 && box.left < screen.width &&
         visible(box, screen.height) && disclosureShows(control) && getComputedStyle(control).visibility === "visible"
@@ -396,9 +398,10 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     const h = avatar.offsetHeight;
     avatar.dataset.side = "1";
     sprite.style.setProperty("--cg-tilt", "0deg");
+    const clearance = parkedCorner === "bottom left" ? settingsHost.offsetHeight + 6 : 0;
     const destination = parkedCorner && !hidden ? {
       x: parkedCorner.endsWith("left") ? 16 : screen.width - w - 16,
-      y: parkedCorner.startsWith("top") ? 18 : screen.height - h - 20,
+      y: parkedCorner.startsWith("top") ? 18 : screen.height - h - 20 - clearance,
     } : idleDock(screen, w, h);
     const target = dockPosition(destination);
     if (animate && performer?.ready && Math.hypot(target.x - position.x, target.y - position.y) > 8) {
@@ -468,40 +471,6 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     label: "Guided tours",
     entries: readyTours.map(tour => ({ label: tour.name, tour })),
   };
-  const positionMenu = {
-    label: "Move chef",
-    text: "Choose a corner or drag me where you want me.",
-    entries: ["Top left", "Top right", "Bottom left", "Bottom right"].map(label => ({
-      label,
-      run: () => setCorner(label.toLowerCase()),
-    })),
-  };
-  const settingsMenu = {
-    label: "Guide settings",
-    entries: () => [
-      {
-        label: "Follow me", status: follow ? "On" : "Off", pressed: follow,
-        run: () => {
-          follow = !follow;
-          hideFollowNote();
-          followedSection = undefined;
-          clearTimeout(followTimer);
-          menu.render();
-        },
-      },
-      {
-        id: "motion",
-        label: paused ? "Resume motion" : "Pause motion",
-        run: () => {
-          paused = !paused;
-          syncMotion();
-        },
-      },
-      positionMenu,
-      { label: "Reset position", run: () => setCorner(undefined) },
-      { label: "Hide chef", run: hideChef },
-    ],
-  };
   const homeMenu = {
     label: "What can I show you?",
     entries: () => [
@@ -509,9 +478,30 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       ...readyMenus,
       ...(readyTours.length ? [toursMenu] : []),
     ],
-    footer: [settingsMenu],
   };
   const menu = createGuidePicker({ picker, home: homeMenu, choose, place: placePicker });
+
+  const settings = mountGuideSettings({
+    host: settingsHost,
+    closeGuide: () => { if (!picker.hidden) closePicker(false); },
+    toggleFollow: () => {
+      follow = !follow;
+      hideFollowNote();
+      followedSection = undefined;
+      clearTimeout(followTimer);
+      syncSettings();
+    },
+    toggleMotion: () => {
+      paused = !paused;
+      syncMotion();
+    },
+    move: setCorner,
+    toggleChef: () => { if (hidden) showChef(); else hideChef(); },
+  });
+
+  function syncSettings() {
+    settings.sync({ following: follow, playing: !paused, chefHidden: hidden, corner: parkedCorner });
+  }
 
   function choose(entry) {
     pickerError.hidden = true;
@@ -535,6 +525,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     stepCard.hidden = open || !selection;
     launch.setAttribute("aria-expanded", String(open));
     if (open) {
+      settings.close();
       stopFreeMovement();
       hideFollowNote();
       pickerError.hidden = true;
@@ -574,11 +565,13 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
   }
 
   function setCorner(corner) {
+    interruptTravel();
     parkedCorner = corner;
     manuallyPlaced = false;
     followedSection = undefined;
     park();
     if (selection) reaim();
+    syncSettings();
   }
 
   function hideChef() {
@@ -589,7 +582,14 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     performer?.wake?.clear();
     launch.setAttribute("aria-label", "Guide");
     applyDock(idleDock(viewport(), avatar.offsetWidth, avatar.offsetHeight));
-    launch.focus({ preventScroll: true });
+    syncSettings();
+  }
+
+  function showChef() {
+    hidden = false;
+    launch.setAttribute("aria-label", askLabel);
+    park();
+    syncSettings();
   }
 
   function prepareTarget(step) {
@@ -776,11 +776,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
 
   launch.addEventListener("click", () => {
     if (suppressClick) return;
-    if (hidden) {
-      hidden = false;
-      launch.setAttribute("aria-label", askLabel);
-      park();
-    }
+    if (hidden) showChef();
     if (picker.hidden) openPicker(true);
     else closePicker();
   });
@@ -845,7 +841,7 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       if (drag?.moved) performer?.endDrag();
       performer?.wake?.clear();
     }
-    if (!picker.hidden) menu.render();
+    syncSettings();
     if (selection) reaim();
     else if (!performer?.traveling && !performer?.coasting) performer?.park();
   }
@@ -862,7 +858,10 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
       return;
     }
     const focusInGuide = root.contains(document.activeElement);
-    if (!picker.hidden) {
+    if (settings.isOpen()) {
+      event.preventDefault();
+      settings.close();
+    } else if (!picker.hidden) {
       event.preventDefault();
       closePicker(focusInGuide);
     } else if (selection) {

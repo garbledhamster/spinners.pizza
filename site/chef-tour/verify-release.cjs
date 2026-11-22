@@ -54,15 +54,21 @@ async function verifyGuideAutoplay(page) {
   });
   assert(loops.iterations.every(count => count >= 2) && loops.samples.every(count => count > 15), JSON.stringify(loops));
 
-  await open(page, "Guide settings");
-  const pause = picker.getByRole("button", { name: "Pause motion", exact: true });
-  await pause.press("Enter");
-  const resume = picker.getByRole("button", { name: "Resume motion", exact: true });
-  assert(await resume.evaluate(element => element === document.activeElement));
+  const settings = page.getByRole("button", { name: "Guide settings", exact: true });
+  await settings.click();
+  const motion = page.getByRole("button", { name: "Guide motion", exact: true });
+  await motion.press("Enter");
+  assert.equal(await motion.getAttribute("aria-pressed"), "false");
+  assert(await motion.evaluate(element => element === document.activeElement));
   assert.equal(await animationState(funnel), "paused");
   assert.equal(await animationState(rider), "paused");
   for (const arc of await page.locator(".cg-wrap-frame").all()) assert.equal(await animationState(arc), "paused");
-  await resume.press("Enter");
+  await motion.press("Enter");
+  assert.equal(await motion.getAttribute("aria-pressed"), "true");
+  await page.keyboard.press("Escape");
+  assert(await settings.evaluate(element => element === document.activeElement));
+  const dock = await settings.boundingBox();
+  await open(page, "Menu & desserts");
   const launcher = await page.getByRole("button", { name: "Ask the Spinners chef" }).boundingBox();
   const before = await picker.boundingBox();
   const screen = page.viewportSize();
@@ -74,7 +80,9 @@ async function verifyGuideAutoplay(page) {
   await page.mouse.up();
   await page.locator(".cg-avatar[data-coast]").waitFor({ state: "detached" });
   const after = await picker.boundingBox();
-  assert(await pause.isVisible(), "Dragging the chef should keep the same submenu open");
+  assert(await picker.getByRole("heading", { name: "Menu & desserts", exact: true }).isVisible(),
+    "Dragging the chef should keep the same submenu open");
+  assert.deepEqual(await settings.boundingBox(), dock, "The settings button must stay fixed when the chef moves");
   assert(after && Math.hypot(after.x - before.x, after.y - before.y) > 25, "The speech bubble should move with the chef");
   assert(await picker.getAttribute("data-tail"), "The speech bubble should point back to the chef");
   assert(after.x >= 0 && after.y >= 0 && after.x + after.width <= screen.width && after.y + after.height <= screen.height);
