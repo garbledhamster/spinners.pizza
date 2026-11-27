@@ -1,4 +1,4 @@
-import { createChefPerformance } from "./chef-performance.mjs?v=5";
+import { createChefPerformance } from "./chef-performance.mjs?v=6";
 import { createGuidePicker } from "./guide-picker.mjs?v=5";
 import { mountGuideSettings } from "./guide-settings.mjs?v=6";
 
@@ -202,10 +202,13 @@ export function mountGuide({ character, tours = [], menus = [], docks = [] }) {
     const sides = step.landing === "left" || (step.landing !== "right" && leftSpace > rightSpace) ? [1, -1] : [-1, 1];
     for (const side of sides) {
       const available = side === 1 ? leftSpace : rightSpace;
-      if (available < w + 14) continue;
-      const x = side === 1 ? rect.left - w - 18 : rect.right + 18;
       const inset = Math.min(.32, 20 / rect.width);
       const destination = point(step.aim ? u : side === 1 ? inset : 1 - inset);
+      const targetInset = side === 1 ? destination.aimX - rect.left : rect.right - destination.aimX;
+      const overhang = performer?.ready ? performer.pointingOverhang * w : 0;
+      const gap = Math.max(18, overhang + 12 - targetInset);
+      if (available < w + gap) continue;
+      const x = side === 1 ? rect.left - w - gap : rect.right + gap;
       const muzzleHeight = performer?.ready ? .48 : character.emitter[1];
       const y = clamp(destination.aimY + 3 - sprite.offsetHeight * muzzleHeight, 12, floor);
       if (!coversControl(x, y)) return { x, y, side, ...destination };

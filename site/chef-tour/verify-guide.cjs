@@ -83,15 +83,18 @@ async function verify({ name, engine, viewport, touch = false }) {
       });
       const grip = await avatar.evaluate(avatar => {
         const wrist = avatar.querySelector(".cg-wrist");
-        const lens = wrist?.querySelector(".cg-moving-peel .cg-peel-emitter")?.getBoundingClientRect();
-        if (!wrist?.querySelector(".cg-grip-art") || !lens) return null;
+        const art = wrist?.querySelector(".cg-held-spatula");
+        const lens = wrist?.querySelector(".cg-peel-emitter")?.getBoundingClientRect();
+        if (!art?.complete || !art.naturalWidth || !lens || wrist.querySelectorAll("img, canvas").length !== 1) return null;
         const beam = new DOMMatrix(getComputedStyle(document.querySelector(".cg-laser")).transform);
         return {
           rotating: getComputedStyle(wrist).transform !== "none",
+          fullSize: art.offsetWidth >= avatar.offsetWidth * .5,
           beamGap: Math.hypot(lens.x - beam.e, lens.y - beam.f),
         };
       });
-      assert(grip?.rotating && grip.beamGap < 2, `${name}: fist, peel and lens should turn together for ${leaf}`);
+      assert(grip?.rotating && grip.fullSize && grip.beamGap < 2,
+        `${name}: the full-size illustrated grip and lens should turn together for ${leaf}`);
       if (menuDetails.has(leaf)) assert.match(await tip.locator(".cg-copy").textContent(), menuDetails.get(leaf));
       const box = await page.locator(target).boundingBox();
       assert(box, `${name} target ${leaf}`);

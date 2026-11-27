@@ -1,14 +1,8 @@
 import { createTornadoMotion } from "./tornado-motion.mjs?v=4";
 
-const radians = Math.PI / 180;
 const spriteScale = .86;
-const gripRadius = .085;
 const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 const easeTravel = p => p * p * (3 - 2 * p);
-const peelOutline = [
-  [.032, .55], [.55, .54], [.63, .42], [.68, .26], [.81, .25], [.82, .17],
-  [.96, .17], [.972, .29], [.936, .69], [.875, .79], [.66, .85], [.57, .66], [.032, .66],
-];
 
 function intersects(from, to, box, pad = 1) {
   let earliest = 0;
@@ -53,7 +47,6 @@ function loadImage(src) {
 export function createChefPerformance({ root, avatar, pose, tornado, config, still }) {
   const layers = node("cg-performance");
   const wrist = node("cg-wrist");
-  const peel = node("cg-moving-peel");
   const emitter = node("cg-peel-emitter");
   const bodyLayer = node("cg-rider-plane cg-body-layer");
   const propLayer = node("cg-rider-plane cg-prop-layer");
@@ -61,16 +54,10 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
   body.className = "cg-frame-art";
   body.width = body.height = 384;
   const ctx = body.getContext("2d");
-  const grip = document.createElement("canvas");
-  grip.className = "cg-grip-art";
-  grip.width = grip.height = 72;
-  const gripContext = grip.getContext("2d");
   root.style.setProperty("--cg-waist-y", `calc(var(--cg-avatar-width) * ${config.waistY})`);
   body.style.width = `${spriteScale * 100}%`;
-  grip.style.width = `${spriteScale * gripRadius * 200}%`;
-  peel.append(emitter);
   bodyLayer.append(body);
-  wrist.append(peel, grip);
+  wrist.append(emitter);
   propLayer.append(wrist);
   layers.append(bodyLayer, propLayer);
   pose.append(layers);
@@ -115,34 +102,17 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     body.style.top = `${top * 100}%`;
     ctx.clearRect(0, 0, body.width, body.height);
     ctx.drawImage(image, (column + x) * width, (row + y) * height, w * width, h * height, registration[0] * body.width, registration[1] * body.height, body.width, body.height);
-    // Lift the pointing fist out of the painted pose at the cuff.
-    gripContext.clearRect(0, 0, grip.width, grip.height);
-    grip.classList.toggle("cg-wrist-cutout", Boolean(entry.wrist));
-    if (entry.grip) {
-      const [u, v] = entry.grip;
-      const cropX = u - gripRadius;
-      const cropY = v - gripRadius;
-      const [gripX, gripY] = artPoint(entry, [cropX, cropY], 100);
-      const crop = gripRadius * 2 * body.width;
-      grip.style.left = `${gripX}%`;
-      grip.style.top = `${gripY}%`;
-      gripContext.save();
-      if (entry.wrist) {
-        gripContext.clip(polygon(entry.wrist.cut, (x, y) => [
-          (x - cropX) * grip.width / (2 * gripRadius),
-          (y - cropY) * grip.height / (2 * gripRadius),
-        ]));
-      }
-      gripContext.drawImage(body, cropX * body.width, cropY * body.height,
-        crop, crop, 0, 0, grip.width, grip.height);
-      gripContext.restore();
-      if (entry.wrist) {
-        ctx.save();
-        ctx.globalCompositeOperation = "destination-out";
-        ctx.fill(polygon(entry.wrist.cut, (x, y) => [x * body.width, y * body.height]));
-        ctx.restore();
-      }
+    // Clear the atlas hand at the cuff so the illustrated grip can take its place.
+    const toCanvas = (x, y) => [x * body.width, y * body.height];
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.fill(polygon(entry.wrist.cut, toCanvas));
+    if (entry.wrist.coat) {
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#eeecef";
+      ctx.fill(polygon(entry.wrist.coat, toCanvas));
     }
+    ctx.restore();
     avatar.dataset.frame = name;
     return true;
   }
@@ -172,8 +142,10 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
   function standby() {
     if (traveling || still() || document.hidden || !avatar.hasAttribute("data-standby")) return;
     frame("blink");
+    restingProp();
     idleTimer = setTimeout(() => {
       frame("idle");
+      restingProp();
       idleTimer = setTimeout(standby, 4200 + Math.random() * 1400);
     }, 120);
   }
@@ -186,33 +158,25 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     return `${facing}-${side < 0 ? "left" : "right"}`;
   };
 
-  function placeWrist(entry, side, size, restAngle = 0) {
+  function placeWrist(entry, size) {
     const width = size * config.prop.width;
-    const height = width / images.peel.naturalWidth * images.peel.naturalHeight;
-    const { grip: [gx, gy], tip: [tx, ty] } = config.prop;
-    const [x, y] = artPoint(entry, entry.grip, size);
-    const [wx, wy] = artPoint(entry, entry.wrist?.pivot ?? entry.grip, 100);
-    wrist.style.transformOrigin = `${wx}% ${wy}%`;
-    Object.assign(peel.style, { left: `${x - gx * width}px`, top: `${y - gy * height}px`, width: `${width}px`, height: `${height}px` });
-    peel.style.transformOrigin = `${gx * 100}% ${gy * 100}%`;
-    peel.style.transform = `scaleX(${side}) rotate(${restAngle}rad)`;
-    [emitter.style.left, emitter.style.top] = [`${tx * 100}%`, `${ty * 100}%`];
+    const height = width / images.heldSpatula.naturalWidth * images.heldSpatula.naturalHeight;
+    const [u, v] = config.prop.pivot;
+    const [x, y] = artPoint(entry, entry.wrist.pivot, size);
+    wrist.style.transformOrigin = `${u * 100}% ${v * 100}%`;
+    Object.assign(wrist.style, { left: `${x - u * width}px`, top: `${y - v * height}px`, width: `${width}px`, height: `${height}px` });
     wrist.hidden = false;
   }
 
   function rotateWrist(theta, side) {
-    wrist.style.transform = `rotate(${side * theta}rad)`;
+    wrist.style.transform = `scaleX(${side}) rotate(${theta}rad)`;
   }
 
-  function restingProp(side = 1) {
-    if (!ready) return;
+  function restingProp() {
     const entry = config.frames[current];
-    if (!entry?.grip) {
-      wrist.hidden = true;
-      return;
-    }
-    placeWrist(entry, side, avatar.offsetWidth, 1.05);
-    rotateWrist(0, side);
+    if (!ready || !entry) return;
+    placeWrist(entry, avatar.offsetWidth);
+    rotateWrist(entry.wrist.angle, entry.wrist.side);
   }
 
   function aim(position, target, viewport, side, animate = false) {
@@ -225,28 +189,24 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     const name = poseFor(target, position, viewport, side);
     const entry = config.frames[name];
     const [x, y] = artPoint(entry, entry.wrist.pivot, size);
-    const [gripX, gripY] = artPoint(entry, entry.grip, size);
     const point = { x: target.x - position.x, y: target.y - position.y };
     const dx = (point.x - x) * side;
     const dy = point.y - y;
     const width = size * config.prop.width;
-    const height = width / images.peel.naturalWidth * images.peel.naturalHeight;
-    const barrel = config.prop.angle * radians;
-    const [gx, gy] = config.prop.grip;
-    const [tx, ty] = config.prop.tip;
-    const relativeToWrist = ([u, v]) => [
-      (gripX - x) * side + (u - gx) * width,
-      gripY - y + (v - gy) * height,
-    ];
-    const [rx, ry] = relativeToWrist([tx, ty]);
-    const offset = -Math.sin(barrel) * rx + Math.cos(barrel) * ry;
-    const theta = Math.atan2(dy, dx) - barrel - Math.asin(clamp(offset / Math.max(1, Math.hypot(dx, dy)), -1, 1));
+    const height = width / images.heldSpatula.naturalWidth * images.heldSpatula.naturalHeight;
+    const [wx, wy] = config.prop.pivot;
+    const offset = (config.prop.tip[1] - wy) * height;
+    const theta = Math.atan2(dy, dx) - Math.asin(clamp(offset / Math.max(1, Math.hypot(dx, dy)), -1, 1));
     const slew = clamp(theta, -Math.PI * .48, Math.PI * .48);
-    const lens = { x: x + side * (Math.cos(slew) * rx - Math.sin(slew) * ry), y: y + Math.sin(slew) * rx + Math.cos(slew) * ry };
-    const propCorners = peelOutline.map(point => {
-      const [rx, ry] = relativeToWrist(point);
-      return { x: x + side * (Math.cos(slew) * rx - Math.sin(slew) * ry), y: y + Math.sin(slew) * rx + Math.cos(slew) * ry };
-    });
+    const cos = Math.cos(slew);
+    const sin = Math.sin(slew);
+    const project = ([u, v]) => {
+      const rx = (u - wx) * width;
+      const ry = (v - wy) * height;
+      return { x: x + side * (cos * rx - sin * ry), y: y + sin * rx + cos * ry };
+    };
+    const lens = project(config.prop.tip);
+    const propCorners = config.prop.outline.map(project);
     const [u0, v0, u1, v1] = entry.head;
     const [left, top] = artPoint(entry, [u0, v0], size);
     const [right, bottom] = artPoint(entry, [u1, v1], size);
@@ -267,7 +227,7 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     const alreadyAiming = current === name && sweepReady;
     frame(name);
     shot = { side };
-    placeWrist(entry, side, size);
+    placeWrist(entry, size);
     sweepReady = true;
     avatar.dataset.pointing = name;
     // The wrist moves while the selected head pose holds still.
@@ -435,7 +395,7 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
       const stage = stages[beats.findIndex(beat => progress < beat)];
       if (stage !== current) {
         frame(stage);
-        restingProp(stage === "turn-left" ? -1 : 1);
+        restingProp();
       }
       animation = requestAnimationFrame(tick);
     };
@@ -449,7 +409,12 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     else requiredImages.push(loaded);
   }
   Promise.all(requiredImages).then(() => {
-    peel.style.backgroundImage = `url("${images.peel.src}")`;
+    const art = images.heldSpatula;
+    art.className = "cg-held-spatula";
+    art.alt = "";
+    wrist.prepend(art);
+    const [tipX, tipY] = config.prop.tip;
+    [emitter.style.left, emitter.style.top] = [`${tipX * 100}%`, `${tipY * 100}%`];
     root.dataset.performer = "ready";
     ready = true;
     park();
@@ -459,6 +424,7 @@ export function createChefPerformance({ root, avatar, pose, tornado, config, sti
     get ready() { return ready; },
     get traveling() { return traveling; },
     get coasting() { return Boolean(coastDone); },
+    get pointingOverhang() { return config.prop.sideRoom; },
     get busy() { return speaking || Boolean(shot && !sweepReady); },
     get source() { return sweepReady && shot ? emitter : null; },
     get side() { return shot?.side; },
