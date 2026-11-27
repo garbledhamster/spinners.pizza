@@ -403,12 +403,13 @@
 }
 .cg-body-layer { z-index: 0; }
 .cg-prop-layer { z-index: 2; }
-.cg-grip-layer { z-index: 3; }
+.cg-wrist { position: absolute; inset: 0; }
 .cg-grip-art {
   position: absolute;
+  z-index: 2;
   height: auto;
-  clip-path: ellipse(49% 49%);
 }
+.cg-grip-art:not(.cg-wrist-cutout) { clip-path: ellipse(49% 49%); }
 .cg-peel-emitter { width: 0; height: 0; }
 .chef-guide[data-performer="ready"] .cg-performance { display: block; }
 .chef-guide[data-performer="ready"] .cg-art,

@@ -81,6 +81,17 @@ async function verify({ name, engine, viewport, touch = false }) {
       await laser.waitFor({timeout:1200}).catch(() => {
         throw Error(`${name}: no beam for ${leaf}`);
       });
+      const grip = await avatar.evaluate(avatar => {
+        const wrist = avatar.querySelector(".cg-wrist");
+        const lens = wrist?.querySelector(".cg-moving-peel .cg-peel-emitter")?.getBoundingClientRect();
+        if (!wrist?.querySelector(".cg-grip-art") || !lens) return null;
+        const beam = new DOMMatrix(getComputedStyle(document.querySelector(".cg-laser")).transform);
+        return {
+          rotating: getComputedStyle(wrist).transform !== "none",
+          beamGap: Math.hypot(lens.x - beam.e, lens.y - beam.f),
+        };
+      });
+      assert(grip?.rotating && grip.beamGap < 2, `${name}: fist, peel and lens should turn together for ${leaf}`);
       if (menuDetails.has(leaf)) assert.match(await tip.locator(".cg-copy").textContent(), menuDetails.get(leaf));
       const box = await page.locator(target).boundingBox();
       assert(box, `${name} target ${leaf}`);

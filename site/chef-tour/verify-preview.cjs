@@ -77,9 +77,9 @@ async function checkScreen(name, engine, viewport) {
     const badge = launch.getByText("Ask the chef", { exact: true });
     const propOrder = await page.locator(".cg-avatar").evaluate(avatar => {
       const order = selector => Number(getComputedStyle(avatar.querySelector(selector)).zIndex);
-      return [order(".cg-funnel-rim"), order(".cg-prop-layer"), order(".cg-grip-layer")];
+      return [order(".cg-funnel-rim"), order(".cg-prop-layer"), order(".cg-moving-peel"), order(".cg-grip-art")];
     });
-    assert(propOrder[0] < propOrder[1] && propOrder[1] < propOrder[2], "The spatula belongs between the tornado and the grip.");
+    assert(propOrder[0] < propOrder[1] && propOrder[2] < propOrder[3], "The spatula belongs between the tornado and the grip.");
     const [captionBox, funnelBox] = await Promise.all([badge.boundingBox(), funnel.boundingBox()]);
     assert(captionBox.y >= funnelBox.y + funnelBox.height + 4, `${name}: the caption overlaps the tornado`);
     assert(captionBox.y + captionBox.height <= viewport.height, `${name}: the caption is cut off`);

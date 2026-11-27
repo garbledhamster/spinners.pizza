@@ -1,4 +1,4 @@
-import { createChefPerformance } from "./chef-performance.mjs?v=4";
+import { createChefPerformance } from "./chef-performance.mjs?v=5";
 import { createGuidePicker } from "./guide-picker.mjs?v=5";
 import { mountGuideSettings } from "./guide-settings.mjs?v=6";
 
